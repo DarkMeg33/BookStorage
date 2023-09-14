@@ -2,7 +2,9 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<script src="~/js/home.js" defer></script>
+
+<div id="home-app" class="text-center">
+    <h1 class="display-4">{{message}}</h1>
+    <input type="text" v-on:input="setMessage" />
 </div>
