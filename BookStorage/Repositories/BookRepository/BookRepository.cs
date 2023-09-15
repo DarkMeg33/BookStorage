@@ -1,8 +1,9 @@
 ﻿using BookStorage.Models.Entities.BookEntities;
+using BookStorage.Repositories.Base;
 
 namespace BookStorage.Repositories.BookRepository
 {
-    public class BookRepository : IBookRepository
+    public class BookRepository : BaseRepository, IBookRepository
     {
         public async Task<List<RetrieveBookEntity>> GetBooksAsync()
         {

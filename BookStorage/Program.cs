@@ -1,3 +1,4 @@
+using BookStorage.Extensions.RepositoryExtensions;
 using BookStorage.Repositories.BookRepository;
 using BookStorage.Services.BookService;
 using BookStorage.Settings;
@@ -29,6 +30,7 @@ namespace BookStorage
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddSingleton(_appSettings);
+            builder.Services.AddUnitOfWork();
 
             #region Repositories
 
