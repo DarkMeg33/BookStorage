@@ -1,3 +1,4 @@
+using BookStorage.Extensions;
 using BookStorage.Extensions.RepositoryExtensions;
 using BookStorage.Repositories.BookRepository;
 using BookStorage.Services.BookService;
@@ -31,6 +32,7 @@ namespace BookStorage
 
             builder.Services.AddSingleton(_appSettings);
             builder.Services.AddUnitOfWork();
+            builder.Services.AddSwaggerDocs();
 
             #region Repositories
 
@@ -45,6 +47,8 @@ namespace BookStorage
             #endregion
 
             var app = builder.Build();
+
+            app.UseSwaggerDocs();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

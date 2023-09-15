@@ -1,5 +1,13 @@
 ﻿let homeApp;
 
+axios.get('/book')
+    .then((response) => {
+        console.log(response);
+    })
+    .catch((e) => {
+        //ignore
+    })
+
 homeApp = new Vue({
     el: '#home-app',
     data: {

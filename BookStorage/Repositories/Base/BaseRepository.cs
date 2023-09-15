@@ -8,7 +8,11 @@ namespace BookStorage.Repositories.Base
         {
             try
             {
-                return (await _unitOfWork.GetAllAsync<T>(procedureName, paramObj, CommandType.StoredProcedure)).ToList();
+                return (await _unitOfWork.GetAllAsync<T>(
+                        procedureName, 
+                        parameter: paramObj, 
+                        commandType: CommandType.StoredProcedure))
+                    .ToList();
             }
             catch (Exception e)
             {
