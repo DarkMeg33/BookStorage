@@ -1,4 +1,5 @@
 ﻿using BookStorage.Models.Dto.BookDto;
+using BookStorage.Repositories.Base;
 using BookStorage.Repositories.BookRepository;
 
 namespace BookStorage.Services.BookService
@@ -7,9 +8,11 @@ namespace BookStorage.Services.BookService
     {
         private readonly IBookRepository _bookRepository;
 
-        public BookService(IBookRepository bookRepository)
+        public BookService(IBookRepository bookRepository, IUnitOfWork unitOfWork)
         {
             _bookRepository = bookRepository;
+
+            _bookRepository.Attach(unitOfWork);
         }
 
         public async Task<List<BookDto>> GetBooksAsync()

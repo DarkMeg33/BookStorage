@@ -3,6 +3,7 @@ using BookStorage.Extensions.RepositoryExtensions;
 using BookStorage.Repositories.BookRepository;
 using BookStorage.Services.BookService;
 using BookStorage.Settings;
+using RepoDb;
 
 namespace BookStorage
 {
@@ -47,6 +48,8 @@ namespace BookStorage
             #endregion
 
             var app = builder.Build();
+
+            app.InitializeRepoDb();
 
             app.UseSwaggerDocs();
 

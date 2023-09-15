@@ -7,7 +7,7 @@ namespace BookStorage.Repositories.BookRepository
     {
         public async Task<List<RetrieveBookEntity>> GetBooksAsync()
         {
-            return new List<RetrieveBookEntity>();
+            return await GetAllAsync<RetrieveBookEntity>("Book_Select");
         }
     }
 }

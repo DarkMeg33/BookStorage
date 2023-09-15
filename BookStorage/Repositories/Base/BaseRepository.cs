@@ -4,7 +4,7 @@ namespace BookStorage.Repositories.Base
 {
     public class BaseRepository : UnitOfWorkRepository
     {
-        public async Task<List<T>> GetAllAsync<T>(string procedureName, object paramObj)
+        public async Task<List<T>> GetAllAsync<T>(string procedureName, object paramObj = null)
         {
             try
             {
