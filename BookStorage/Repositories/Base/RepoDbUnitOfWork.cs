@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using BookStorage.Extensions.RepositoryExtensions;
 using BookStorage.Settings;
 using Microsoft.Data.SqlClient;
 using RepoDb;
@@ -75,9 +76,9 @@ namespace BookStorage.Repositories.Base
             }
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>(string queryString, object parameter = null, CommandType commandType = CommandType.StoredProcedure)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(string query, object parameter = null, CommandType commandType = CommandType.StoredProcedure)
         {
-            return await Connection.ExecuteQueryAsync<T>(queryString, parameter, commandType, transaction: Transaction);
+            return await Connection.GetAllAsync<T>(query, parameter, commandType, Transaction);
         }
 
         public void Dispose()
