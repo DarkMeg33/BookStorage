@@ -1,7 +1,9 @@
 using BookStorage.Extensions;
 using BookStorage.Extensions.RepositoryExtensions;
 using BookStorage.Repositories.BookRepository;
+using BookStorage.Repositories.UserRepository;
 using BookStorage.Services.BookService;
+using BookStorage.Services.UserService;
 using BookStorage.Settings;
 using RepoDb;
 
@@ -38,12 +40,14 @@ namespace BookStorage
             #region Repositories
 
             builder.Services.AddScoped<IBookRepository, BookRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             #endregion
 
             #region Services
 
             builder.Services.AddScoped<IBookService, BookService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             #endregion
 

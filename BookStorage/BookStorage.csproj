@@ -12,8 +12,12 @@
   <ItemGroup>
     <Folder Include="Extensions\RepositoryExtensions\" />
     <Folder Include="Models\Dto\BookDto\" />
-    <Folder Include="Models\ViewModels\" />
+    <Folder Include="Models\Dto\UserDto\" />
+    <Folder Include="Models\Entities\UserEntities\" />
+    <Folder Include="Models\ViewModels\UserViewModel\" />
     <Folder Include="Repositories\Base\" />
+    <Folder Include="Repositories\UserRepository\" />
+    <Folder Include="Services\UserService\" />
     <Folder Include="Settings\" />
     <Folder Include="Repositories\BookRepository\" />
   </ItemGroup>
