@@ -8,6 +8,7 @@ namespace BookStorage.Repositories.Base
     public class RepoDbUnitOfWork : IUnitOfWork
     {
         private IDbConnection _connection;
+        private IDbTransaction _transaction;
 
         private readonly string _connectionString;
 
@@ -17,12 +18,14 @@ namespace BookStorage.Repositories.Base
             {
                 if (_connection == null)
                 {
-                    Begin();
+                    Begin(true);
                 }
 
                 return _connection;
             }
         }
+
+        public IDbTransaction Transaction => _transaction;
 
         public RepoDbUnitOfWork(AppSettings appSettings)
         {
@@ -34,24 +37,47 @@ namespace BookStorage.Repositories.Base
             return _connection ??= new SqlConnection(_connectionString).EnsureOpen();
         }
 
-        public void Begin()
+        public void Begin(bool isAtomic = false)
         {
+            if (_transaction != null)
+            {
+                throw new InvalidOperationException(
+                    "Cannot start a new transaction while the existing other one is still open.");
+            }
+
             OpenConnection();
+
+            if (!isAtomic)
+            {
+                _transaction = Connection.BeginTransaction();
+            }
         }
 
         public void Commit()
         {
-            throw new NotImplementedException();
+            if (_transaction != null)
+            {
+                _transaction.Commit();
+                _transaction.Dispose();
+
+                _transaction = null;
+            }
         }
 
         public void RollBack()
         {
-            throw new NotImplementedException();
+            if (_transaction != null)
+            {
+                _transaction.Rollback();
+                _transaction.Dispose();
+
+                _transaction = null;
+            }
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>(string queryString, object parameter = null, CommandType commandType = CommandType.StoredProcedure)
         {
-            return await Connection.ExecuteQueryAsync<T>(queryString, parameter, commandType);
+            return await Connection.ExecuteQueryAsync<T>(queryString, parameter, commandType, transaction: Transaction);
         }
 
         public void Dispose()

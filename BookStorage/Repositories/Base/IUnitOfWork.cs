@@ -4,7 +4,7 @@ namespace BookStorage.Repositories.Base
 {
     public interface IUnitOfWork : IDisposable
     {
-        void Begin();
+        void Begin(bool isAtomic = false);
         void Commit();
         void RollBack();
 

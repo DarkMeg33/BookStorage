@@ -1,12 +1,9 @@
 ﻿let homeApp;
 
-axios.get('/book')
+axios.get('/books')
     .then((response) => {
         console.log(response);
-    })
-    .catch((e) => {
-        //ignore
-    })
+    });
 
 homeApp = new Vue({
     el: '#home-app',
