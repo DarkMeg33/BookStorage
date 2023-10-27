@@ -1,5 +1,4 @@
-﻿using BookStorage.Models.Dto.DynamicResultDto;
-using BookStorage.Models.Dto.EndpointResultDto;
+﻿using BookStorage.Models.Dto.EndpointResultDto;
 using BookStorage.Models.Dto.UserDto;
 using BookStorage.Models.Entities.UserEntities;
 using BookStorage.Models.ViewModels.UserViewModel;

@@ -20,6 +20,7 @@
     <Folder Include="Services\UserService\" />
     <Folder Include="Settings\" />
     <Folder Include="Repositories\BookRepository\" />
+    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
   <ItemGroup>
