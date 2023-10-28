@@ -6,22 +6,26 @@
 
     <title>@ViewData["Title"] - BookStorage</title>
 
-    <link rel="stylesheet" href="~/css/main.css"/>
-    <script src="~/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+
+    @* <link rel="stylesheet" href="~/lib/fomantic/fomantic-2.8.8.css">
+    <script src="~/lib/fomantic/fomantic-2.8.8.js"></script> *@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css">
-    
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
+
     <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <link rel="stylesheet" href="~/css/main.css" />
+
+    <script src="~/js/main.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     @await Html.PartialAsync("_Header")
-    <main id="main">
-        @RenderBody()
-    </main>
+    @RenderBody()
     @await Html.PartialAsync("_Footer")
 
     @await RenderSectionAsync("LastScripts", required: false)
