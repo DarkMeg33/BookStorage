@@ -1,10 +1,13 @@
 using BookStorage.Extensions;
 using BookStorage.Extensions.RepositoryExtensions;
+using BookStorage.Repositories.AccountRepository;
 using BookStorage.Repositories.BookRepository;
 using BookStorage.Repositories.UserRepository;
+using BookStorage.Services.AccountService;
 using BookStorage.Services.BookService;
 using BookStorage.Services.UserService;
 using BookStorage.Settings;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using RepoDb;
 
 namespace BookStorage
@@ -33,6 +36,9 @@ namespace BookStorage
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.SetupCookie(_appSettings);
+            builder.Services.AddHttpContextAccessor();
+
             builder.Services.AddSingleton(_appSettings);
             builder.Services.AddUnitOfWork();
             builder.Services.AddSwaggerDocs();
@@ -41,6 +47,7 @@ namespace BookStorage
 
             builder.Services.AddScoped<IBookRepository, BookRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
             #endregion
 
@@ -48,6 +55,7 @@ namespace BookStorage
 
             builder.Services.AddScoped<IBookService, BookService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IAccountService, AccountService>();
 
             #endregion
 
@@ -70,6 +78,7 @@ namespace BookStorage
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

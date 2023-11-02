@@ -7,10 +7,20 @@ namespace BookStorage.Repositories.UserRepository
     {
         public async Task<UserEntity> GetUserAsync(int id)
         {
-            throw new NotImplementedException();
+            return await GetAsync<UserEntity>("User_SelectById", new { userId = id });
         }
 
-        public async Task<UserEntity> UpsertUserAsync(UserEntity entity)
+        public async Task<UserEntity> GetUserAsync(string email)
+        {
+            return await GetAsync<UserEntity>("User_SelectByEmail", new { email });
+        }
+
+        public async Task<string> GetUserPasswordAsync(string email)
+        {
+            return await GetAsync<string>("UserPassword_Select", new { email });
+        }
+
+        public async Task<UserEntity> UpdateUserAsync(UserEntity entity)
         {
             throw new NotImplementedException();
         }

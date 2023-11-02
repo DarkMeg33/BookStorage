@@ -1,7 +1,5 @@
-﻿using BookStorage.Models.Dto.EndpointResultDto;
-using BookStorage.Models.Dto.UserDto;
-using BookStorage.Models.Entities.UserEntities;
-using BookStorage.Models.ViewModels.UserViewModel;
+﻿using BookStorage.Models.Dto.UserDto;
+using BookStorage.Repositories.Base;
 using BookStorage.Repositories.UserRepository;
 
 namespace BookStorage.Services.UserService
@@ -10,9 +8,11 @@ namespace BookStorage.Services.UserService
     {
         private readonly IUserRepository _userRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
+
+            _userRepository.Attach(unitOfWork);
         }
 
         public async Task<UserDto> GetUserAsync(int id)
@@ -20,31 +20,14 @@ namespace BookStorage.Services.UserService
             return new UserDto(await _userRepository.GetUserAsync(id));
         }
 
-        public async Task<DataEndpointResultDto<UserDto>> TryCreateUserAsync(RegisterUserViewModel viewModel)
+        public async Task<UserDto> GetUserAsync(string email)
         {
-            Dictionary<string, string> errors = new();
+            return new UserDto(await _userRepository.GetUserAsync(email));
+        }
 
-            try
-            {
-                UserEntity createdUser = await _userRepository.UpsertUserAsync(new UserEntity()
-                {
-                    Username = viewModel.Username,
-                    Email = viewModel.Email,
-                    Password = viewModel.Password
-                });
-
-                if (createdUser == null)
-                {
-                    return new DataEndpointResultDto<UserDto>(false, null, errors);
-                }
-
-                return new DataEndpointResultDto<UserDto>(true, new UserDto(createdUser), errors);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return new DataEndpointResultDto<UserDto>(false, null, errors);
-            }
+        public async Task<UserDto> GetUserByUsernameAsync(string username)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookStorage.Controllers
 {
-    public class BookController : Controller
+    public class BookController : BaseController
     {
         private readonly IBookService _bookService;
 

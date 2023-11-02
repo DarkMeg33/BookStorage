@@ -6,6 +6,8 @@ namespace BookStorage.Repositories.UserRepository
     public interface IUserRepository : IRepository
     {
         Task<UserEntity> GetUserAsync(int id);
-        Task<UserEntity> UpsertUserAsync(UserEntity entity);
+        Task<UserEntity> GetUserAsync(string email);
+        Task<string> GetUserPasswordAsync(string email);
+        Task<UserEntity> UpdateUserAsync(UserEntity entity);
     }
 }

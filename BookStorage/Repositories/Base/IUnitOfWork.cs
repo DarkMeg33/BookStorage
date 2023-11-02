@@ -8,7 +8,12 @@ namespace BookStorage.Repositories.Base
         void Commit();
         void RollBack();
 
+        Task<T> GetAsync<T>(string query, object parameter = null,
+            CommandType commandType = CommandType.StoredProcedure);
+
         Task<IEnumerable<T>> GetAllAsync<T>(string query, object parameter = null,
             CommandType commandType = CommandType.StoredProcedure);
+
+        Task<bool> ExecuteNonQueryStoredProcedureAsync(string query, object parameter = null);
     }
 }
