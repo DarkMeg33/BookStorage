@@ -14,6 +14,8 @@ namespace BookStorage.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        //TODO add access-denied page
+
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult InternalServerError()
         {

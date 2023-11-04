@@ -7,7 +7,6 @@ namespace BookStorage.Controllers
     public class HomeController : BaseController
     {
         [ApiExplorerSettings(IgnoreApi = true)]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
         public IActionResult Index()
         {
             return View();

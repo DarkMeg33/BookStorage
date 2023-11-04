@@ -29,6 +29,17 @@ namespace BookStorage.Services.AccountService
             _userRepository.Attach(unitOfWork);
         }
 
+        public bool IsUserAuthenticated()
+        {
+            return _httpContextAccessor.HttpContext?.User.Identity != null
+                   && _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
+        }
+
+        public async Task SignOutAsync()
+        {
+            await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
         public async Task<EndpointResultDto> TrySignInAsync(SignInViewModel viewModel)
         {
             Dictionary<string, string> errors = new();
@@ -83,7 +94,7 @@ namespace BookStorage.Services.AccountService
 
                 try
                 {
-                    await _httpContextAccessor?.HttpContext.SignInAsync(
+                    await _httpContextAccessor.HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal)!;
                 }
                 catch (Exception e)

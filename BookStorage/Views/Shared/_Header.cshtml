@@ -1,7 +1,18 @@
-﻿<header id="site-header">    
+﻿@using BookStorage.Services.AccountService
+@using BookStorage.Extensions
+
+@{
+    <script src="~/js/header.js"></script>
+}
+
+@{
+    IAccountService accountService = Context.GetService<IAccountService>();
+}
+
+<header id="site-header">    
     <div class="ui fixed inverted menu">
         <div class="ui container">
-            <a href="" class="header item">
+            <a href="/" class="header item">
                 <i class="book icon"></i>
                 BookSpot
             </a>
@@ -23,6 +34,51 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="right menu">
+                <div class="item">
+                    <div class="ui transparent inverted icon input">
+                        <i class="search icon"></i>
+                        <input type="text" placeholder="Search" />
+                    </div>
+                </div>
+                @if (accountService.IsUserAuthenticated())
+                {
+                    <div class="item">
+                        <a class="ui avatar image" id="account-popup">
+                            <img src="/images/avatar/small/joe.jpg">
+                        </a>
+                        <div class="ui popup">
+                            <div class="ui fluid centered link divided relaxed list">
+                                <div class="item">
+                                    <i class="user secondary icon" style="visibility: visible;"></i>
+                                    <div class="content">
+                                        <a class="header">Account</a>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="sign out alternate secondary icon"></i>
+                                    <div class="content">
+                                        <a class="header"
+                                           id="sign-out-btn"
+                                           href="@Url.Action("Logout", "Account")">
+                                            Logout
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="item">
+                        <a href="@Url.Action("SignInUp", "Account")"
+                           class="ui inverted button">
+                            Log in
+                        </a>
+                    </div>
+                }
             </div>
         </div>
     </div>
