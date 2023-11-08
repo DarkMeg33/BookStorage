@@ -1,4 +1,5 @@
-﻿using BookStorage.Services.BookService;
+﻿using BookStorage.Models.Dto.BookDto;
+using BookStorage.Services.BookService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStorage.Controllers
@@ -16,6 +17,14 @@ namespace BookStorage.Controllers
         public async Task<IActionResult> GetBooks()
         {
             return Json(await _bookService.GetBooksAsync());
+        }
+
+        [Route("/books/{bookId}")]
+        public async Task<IActionResult> GetBook([FromRoute] int bookId)
+        {
+            GetBookDto book = await _bookService.GetBookAsync(bookId);
+
+            return View("Book", book);
         }
     }
 }

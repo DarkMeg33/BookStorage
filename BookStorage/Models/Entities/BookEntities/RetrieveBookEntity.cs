@@ -2,6 +2,6 @@
 {
     public class RetrieveBookEntity : BookEntity
     {
-
+        public string AuthorName { get; set; }
     }
 }

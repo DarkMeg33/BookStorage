@@ -1,1 +1,12 @@
-﻿
+﻿.main {
+    margin-top: 70px !important;
+    margin-bottom: 20px;
+}
+
+body {
+    background-color: #EEF3FB;
+}
+
+.m-top-15 {
+    margin-top: 15px !important;
+}

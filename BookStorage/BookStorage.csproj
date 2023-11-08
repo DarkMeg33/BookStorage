@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <Folder Include="Extensions\RepositoryExtensions\" />
-    <Folder Include="Models\Dto\BookDto\" />
     <Folder Include="Models\Dto\UserDto\" />
     <Folder Include="Models\ViewModels\UserViewModel\" />
     <Folder Include="Repositories\Base\" />

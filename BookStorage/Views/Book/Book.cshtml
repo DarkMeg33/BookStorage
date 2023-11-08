@@ -1,0 +1,168 @@
+﻿@using BookStorage.Services.AccountService
+@using BookStorage.Extensions
+@using BookStorage.Models.Dto.BookDto
+
+@model BookStorage.Models.Dto.BookDto.GetBookDto
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/book.css" />
+}
+
+@section Scripts 
+{
+}
+
+@{
+    ViewData["Title"] = Model.Title;
+    IAccountService accountService = Context.GetService<IAccountService>();
+}
+
+<div class="ui main container">
+    <div class="ui grid">
+        <div class="twelve wide column">
+            <div class="ui segment">
+                <div class="ui grid">
+                    <div class="six wide column">
+                        <div class="ui fluid rounded image">
+                            <img src="/images/book/book-img.jpg" alt="" />
+                        </div>
+                        <div class="ui fluid positive button m-top-15">Read</div>
+                    </div>
+                    <div class="ten wide column">
+                        <h1 class="ui dividing header">
+                            @Model.Title
+                        </h1>
+                        <a class="ui blue header">
+                            @Model.AuthorName
+                        </a>
+                        <h5 class="ui header">Annotation</h5>
+                        <div class="ui black stacked segment">
+                            <div>
+                                <span class="ui text">
+                                    @Model.Description
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui segment">
+                <h3 class="ui dividing header">Comments</h3>
+                @if (accountService.IsUserAuthenticated())
+                {
+                    <form class="ui reply form">
+                        <div class="field">
+                            <textarea placeholder="Write a message..."></textarea>
+                        </div>
+                        <div class="ui blue labeled submit icon button">
+                            <i class="icon edit"></i> Add Reply
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="ui blue segment">
+                        <h3 class="ui centered header">
+                            Authorize to write a comment
+                        </h3>
+                    </div>
+                }
+                <div class="ui comments">
+                    <div class="comment">
+                        <a class="avatar">
+                            <img src="/images/avatar/small/joe.jpg">
+                        </a>
+                        <div class="content">
+                            <a class="author">Matt</a>
+                            <div class="metadata">
+                                <span class="date">Today at 5:42PM</span>
+                            </div>
+                            <div class="text">
+                                How artistic!
+                            </div>
+                            <div class="actions">
+                                <a class="reply">Reply</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <a class="avatar">
+                            <img src="/images/avatar/small/joe.jpg">
+                        </a>
+                        <div class="content">
+                            <a class="author">Elliot Fu</a>
+                            <div class="metadata">
+                                <span class="date">Yesterday at 12:30AM</span>
+                            </div>
+                            <div class="text">
+                                <p>This has been very useful for my research. Thanks as well!</p>
+                            </div>
+                            <div class="actions">
+                                <a class="reply">Reply</a>
+                            </div>
+                        </div>
+                        <div class="comments">
+                            <div class="comment">
+                                <a class="avatar">
+                                    <img src="/images/avatar/small/joe.jpg">
+                                </a>
+                                <div class="content">
+                                    <a class="author">Jenny Hess</a>
+                                    <div class="metadata">
+                                        <span class="date">Just now</span>
+                                    </div>
+                                    <div class="text">
+                                        Elliot you are always so right :)
+                                    </div>
+                                    <div class="actions">
+                                        <a class="reply">Reply</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <a class="avatar">
+                            <img src="/images/avatar/small/joe.jpg">
+                        </a>
+                        <div class="content">
+                            <a class="author">Joe Henderson</a>
+                            <div class="metadata">
+                                <span class="date">5 days ago</span>
+                            </div>
+                            <div class="text">
+                                Dude, this is awesome. Thanks so much
+                            </div>
+                            <div class="actions">
+                                <a class="reply">Reply</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="four wide column">
+            <div class="ui card">
+                <div class="image">
+                    <img src="/images/avatar/large/kristy.png">
+                </div>
+                <div class="content">
+                    <a class="header">Kristy</a>
+                    <div class="meta">
+                        <span class="date">Joined in 2013</span>
+                    </div>
+                    <div class="description">
+                        Book writer.
+                    </div>
+                </div>
+                <div class="extra content">
+                    <a>
+                        <i class="user icon"></i>
+                        22 Friends
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

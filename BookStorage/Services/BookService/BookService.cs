@@ -21,5 +21,10 @@ namespace BookStorage.Services.BookService
                 .Select(x => new BookDto(x))
                 .ToList();
         }
+
+        public async Task<GetBookDto> GetBookAsync(int bookId)
+        {
+            return new GetBookDto(await _bookRepository.GetBookAsync(bookId));
+        }
     }
 }
