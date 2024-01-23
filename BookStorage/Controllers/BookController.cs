@@ -19,7 +19,7 @@ namespace BookStorage.Controllers
             return Json(await _bookService.GetBooksAsync());
         }
 
-        [Route("/books/{bookId}")]
+        [Route("/book/{bookId}/view")]
         public async Task<IActionResult> GetBook([FromRoute] int bookId)
         {
             GetBookDto book = await _bookService.GetBookAsync(bookId);

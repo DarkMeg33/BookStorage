@@ -1,12 +1,12 @@
-﻿@using BookStorage.Services.AccountService
-@using BookStorage.Extensions
+﻿@using BookStorage.Extensions
+@using BookStorage.Services.UserContextService
 
 @{
     <script src="~/js/header.js"></script>
 }
 
 @{
-    IAccountService accountService = Context.GetService<IAccountService>();
+    IUserContextService userContextService = Context.GetService<IUserContextService>();
 }
 
 <header id="site-header">    
@@ -42,7 +42,7 @@
                         <input type="text" placeholder="Search" />
                     </div>
                 </div>
-                @if (accountService.IsUserAuthenticated())
+                @if (userContextService.IsUserAuthenticated())
                 {
                     <div class="item">
                         <a class="ui avatar image" id="account-popup">

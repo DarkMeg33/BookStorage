@@ -1,21 +1,26 @@
-﻿@using BookStorage.Services.AccountService
-@using BookStorage.Extensions
-@using BookStorage.Models.Dto.BookDto
+﻿@using BookStorage.Extensions
+@using BookStorage.Models.Dto.CommentDto
+@using BookStorage.Services.CommentService
+@using BookStorage.Services.UserContextService
 
 @model BookStorage.Models.Dto.BookDto.GetBookDto
 
 @section Styles
 {
-    <link rel="stylesheet" href="~/css/book.css" />
+    <link rel="stylesheet" href="~/css/book-view.css" />
 }
 
 @section Scripts 
-{
+    {
+    <script src="~/js/book-view.js"></script>
 }
 
 @{
     ViewData["Title"] = Model.Title;
-    IAccountService accountService = Context.GetService<IAccountService>();
+    IUserContextService userContextService = Context.GetService<IUserContextService>();
+    ICommentService commentService = Context.GetService<ICommentService>();
+
+    List<GetCommentDto> comments = await commentService.GetCommentsAsync(Model.BookId!.Value);
 }
 
 <div class="ui main container">
@@ -49,13 +54,14 @@
             </div>
             <div class="ui segment">
                 <h3 class="ui dividing header">Comments</h3>
-                @if (accountService.IsUserAuthenticated())
+                @if (userContextService.IsUserAuthenticated())
                 {
-                    <form class="ui reply form">
+                    <form class="ui reply form" id="comment-form" onsubmit="return false">
                         <div class="field">
-                            <textarea placeholder="Write a message..."></textarea>
+                            <textarea name="text" placeholder="Write a message..."></textarea>
                         </div>
-                        <div class="ui blue labeled submit icon button">
+                        <div id="comment-btn" 
+                             class="ui blue labeled submit icon button">
                             <i class="icon edit"></i> Add Reply
                         </div>
                     </form>
@@ -63,83 +69,39 @@
                 else
                 {
                     <div class="ui blue segment">
-                        <h3 class="ui centered header">
+                        <h3 class="ui centered header">Ts
                             Authorize to write a comment
                         </h3>
                     </div>
                 }
-                <div class="ui comments">
-                    <div class="comment">
-                        <a class="avatar">
-                            <img src="/images/avatar/small/joe.jpg">
-                        </a>
-                        <div class="content">
-                            <a class="author">Matt</a>
-                            <div class="metadata">
-                                <span class="date">Today at 5:42PM</span>
-                            </div>
-                            <div class="text">
-                                How artistic!
-                            </div>
-                            <div class="actions">
-                                <a class="reply">Reply</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment">
-                        <a class="avatar">
-                            <img src="/images/avatar/small/joe.jpg">
-                        </a>
-                        <div class="content">
-                            <a class="author">Elliot Fu</a>
-                            <div class="metadata">
-                                <span class="date">Yesterday at 12:30AM</span>
-                            </div>
-                            <div class="text">
-                                <p>This has been very useful for my research. Thanks as well!</p>
-                            </div>
-                            <div class="actions">
-                                <a class="reply">Reply</a>
-                            </div>
-                        </div>
-                        <div class="comments">
+                @if (comments.Any())
+                {
+                    <div class="ui comments">
+                        @foreach (GetCommentDto comment in comments)
+                        {
                             <div class="comment">
                                 <a class="avatar">
                                     <img src="/images/avatar/small/joe.jpg">
                                 </a>
                                 <div class="content">
-                                    <a class="author">Jenny Hess</a>
+                                    <a class="author">@comment.AuthorName</a>
                                     <div class="metadata">
-                                        <span class="date">Just now</span>
+                                        <span class="date">@comment.CreatedAt</span>
                                     </div>
                                     <div class="text">
-                                        Elliot you are always so right :)
-                                    </div>
-                                    <div class="actions">
-                                        <a class="reply">Reply</a>
+                                        @comment.Text
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     </div>
-                    <div class="comment">
-                        <a class="avatar">
-                            <img src="/images/avatar/small/joe.jpg">
-                        </a>
-                        <div class="content">
-                            <a class="author">Joe Henderson</a>
-                            <div class="metadata">
-                                <span class="date">5 days ago</span>
-                            </div>
-                            <div class="text">
-                                Dude, this is awesome. Thanks so much
-                            </div>
-                            <div class="actions">
-                                <a class="reply">Reply</a>
-                            </div>
-                        </div>
+                }
+                else
+                {
+                    <div class="ui segment">
+                        There are no comments yet.
                     </div>
-                </div>
+                }
             </div>
         </div>
         <div class="four wide column">

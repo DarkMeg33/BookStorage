@@ -6,7 +6,6 @@ using BookStorage.Models.ViewModels.AccountViewModel;
 using BookStorage.Repositories.AccountRepository;
 using BookStorage.Repositories.Base;
 using BookStorage.Repositories.UserRepository;
-using BookStorage.Services.UserService;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 

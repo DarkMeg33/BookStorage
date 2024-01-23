@@ -2,13 +2,15 @@ using BookStorage.Extensions;
 using BookStorage.Extensions.RepositoryExtensions;
 using BookStorage.Repositories.AccountRepository;
 using BookStorage.Repositories.BookRepository;
+using BookStorage.Repositories.CommentRepository;
 using BookStorage.Repositories.UserRepository;
 using BookStorage.Services.AccountService;
 using BookStorage.Services.BookService;
+using BookStorage.Services.ClaimService;
+using BookStorage.Services.CommentService;
+using BookStorage.Services.UserContextService;
 using BookStorage.Services.UserService;
 using BookStorage.Settings;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using RepoDb;
 
 namespace BookStorage
 {
@@ -48,6 +50,7 @@ namespace BookStorage
             builder.Services.AddScoped<IBookRepository, BookRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+            builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
             #endregion
 
@@ -56,6 +59,9 @@ namespace BookStorage
             builder.Services.AddScoped<IBookService, BookService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAccountService, AccountService>();
+            builder.Services.AddScoped<ICommentService, CommentService>();
+            builder.Services.AddScoped<IClaimService, ClaimService>();
+            builder.Services.AddScoped<IUserContextService, UserContextService>();
 
             #endregion
 

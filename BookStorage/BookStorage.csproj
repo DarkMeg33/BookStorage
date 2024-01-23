@@ -6,18 +6,13 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<PropertyGroup>
-		<Version>0.0.8</Version>
+		<Version>0.0.9</Version>
 	</PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\RepositoryExtensions\" />
-    <Folder Include="Models\Dto\UserDto\" />
-    <Folder Include="Models\ViewModels\UserViewModel\" />
-    <Folder Include="Repositories\Base\" />
-    <Folder Include="Repositories\UserRepository\" />
-    <Folder Include="Services\UserService\" />
+    <Folder Include="Extensions\" />
     <Folder Include="Settings\" />
-    <Folder Include="Repositories\BookRepository\" />
+    <Folder Include="Repositories\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
