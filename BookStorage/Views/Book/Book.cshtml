@@ -11,8 +11,11 @@
 }
 
 @section Scripts 
-    {
+{
     <script src="~/js/book-view.js"></script>
+    
+    @await Html.SetClientSideJavascriptVariableAsync("bookId",  56384)
+    @await Html.SetClientSideJavascriptVariableAsync("book",  Model)
 }
 
 @{

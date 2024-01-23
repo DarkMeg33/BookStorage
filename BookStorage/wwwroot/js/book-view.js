@@ -1,4 +1,6 @@
-﻿function bindForms() {
+﻿let commentApp;
+
+function bindForms() {
     bindFormSubmit({
         btnId: 'comment-btn',
         formId: 'comment-form',
@@ -31,6 +33,21 @@ function setupFormValidation() {
 }
 
 $(function () {
-    bindForms();
-    setupFormValidation();
+
+    commentApp = new Vue({
+        el: '#comment-app',
+        data: {
+            bookId: 0,
+            comments: null,
+        },
+        mounted: function () {
+            bindForms();
+            setupFormValidation();
+        },
+        methods: {
+            setMessage: function (event) {
+                this.message = event.target.value;
+            }
+        }
+    });
 });

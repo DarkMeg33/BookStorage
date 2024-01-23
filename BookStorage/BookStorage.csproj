@@ -6,11 +6,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<PropertyGroup>
-		<Version>0.0.9</Version>
+		<Version>0.1.0</Version>
 	</PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
     <Folder Include="Settings\" />
     <Folder Include="Repositories\" />
     <Folder Include="wwwroot\lib\" />
