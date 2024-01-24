@@ -5,25 +5,26 @@
 
 @model BookStorage.Models.Dto.BookDto.GetBookDto
 
-@section Styles
-{
-    <link rel="stylesheet" href="~/css/book-view.css" />
-}
-
-@section Scripts 
-{
-    <script src="~/js/book-view.js"></script>
-    
-    @await Html.SetClientSideJavascriptVariableAsync("bookId",  56384)
-    @await Html.SetClientSideJavascriptVariableAsync("book",  Model)
-}
-
 @{
     ViewData["Title"] = Model.Title;
     IUserContextService userContextService = Context.GetService<IUserContextService>();
     ICommentService commentService = Context.GetService<ICommentService>();
 
     List<GetCommentDto> comments = await commentService.GetCommentsAsync(Model.BookId!.Value);
+}
+
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/book-view.css" />
+}
+
+@section Scripts
+{
+    <script src="~/js/book-view.js"></script>
+
+    @await Html.SetClientSideJavascriptVariableAsync("bookId",  Model.BookId)
+    @await Html.SetClientSideJavascriptVariableAsync("comments",  comments)
 }
 
 <div class="ui main container">
@@ -77,34 +78,31 @@
                         </h3>
                     </div>
                 }
-                @if (comments.Any())
-                {
-                    <div class="ui comments">
-                        @foreach (GetCommentDto comment in comments)
-                        {
+                <div id="comment-app" class="m-top-15">
+                    <div v-if="comments.length">
+                        <div class="ui comments" v-for="comment in comments">
                             <div class="comment">
                                 <a class="avatar">
                                     <img src="/images/avatar/small/joe.jpg">
                                 </a>
                                 <div class="content">
-                                    <a class="author">@comment.AuthorName</a>
+                                    <a class="author">{{ comment.authorName }}</a>
                                     <div class="metadata">
-                                        <span class="date">@comment.CreatedAt</span>
+                                        <span class="date">{{ comment.createdAt }}</span>
                                     </div>
                                     <div class="text">
-                                        @comment.Text
+                                        {{ comment.text }}
                                     </div>
                                 </div>
                             </div>
-                        }
+                        </div>
                     </div>
-                }
-                else
-                {
-                    <div class="ui segment">
-                        There are no comments yet.
+                    <div v-else>
+                        <div class="ui segment">
+                            There are no comments yet.
+                        </div>
                     </div>
-                }
+                </div>
             </div>
         </div>
         <div class="four wide column">

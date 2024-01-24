@@ -11,6 +11,8 @@ using BookStorage.Services.CommentService;
 using BookStorage.Services.UserContextService;
 using BookStorage.Services.UserService;
 using BookStorage.Settings;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace BookStorage
 {
@@ -36,7 +38,19 @@ namespace BookStorage
             builder.Configuration.Bind(_appSettings);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                StringEscapeHandling = StringEscapeHandling.EscapeHtml,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+
+            builder.Services
+                .AddControllersWithViews()
+                .AddNewtonsoftJson(o =>
+                {
+                    o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                });
 
             builder.Services.SetupCookie(_appSettings);
             builder.Services.AddHttpContextAccessor();

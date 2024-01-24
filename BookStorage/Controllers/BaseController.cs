@@ -35,5 +35,11 @@ namespace BookStorage.Controllers
         {
             return result.IsSuccess ? Ok() : ErrorResponse(result.Errors);
         }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public IActionResult DynamicResultResponse<T>(DataEndpointResultDto<T> result)
+        {
+            return result.IsSuccess ? Json(result.Data) : ErrorResponse(result.Errors);
+        }
     }
 }

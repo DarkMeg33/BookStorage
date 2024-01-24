@@ -8,9 +8,13 @@ function bindForms() {
             return 'post';
         },
         urlFn: () => {
-            return `/book/${bookId}/comment`;
+            return `/book/${commentApp.bookId}/comment`;
         },
         onSuccessFn: (response) => {
+            if (response.data) {
+                commentApp.comments.unshift(response.data);
+            }
+
             showSuccess('Success');
         }
     });
@@ -33,21 +37,16 @@ function setupFormValidation() {
 }
 
 $(function () {
-
     commentApp = new Vue({
         el: '#comment-app',
         data: {
-            bookId: 0,
-            comments: null,
+            bookId: _get('bookId'),
+            comments: _get('comments'),
         },
         mounted: function () {
             bindForms();
             setupFormValidation();
         },
-        methods: {
-            setMessage: function (event) {
-                this.message = event.target.value;
-            }
-        }
+        methods: {}
     });
 });

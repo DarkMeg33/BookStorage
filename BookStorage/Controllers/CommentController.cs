@@ -1,8 +1,6 @@
-﻿using BookStorage.Models.Dto.CommentDto;
-using BookStorage.Models.ViewModels.CommentViewModel;
+﻿using BookStorage.Models.ViewModels.CommentViewModel;
 using BookStorage.Services.CommentService;
 using BookStorage.Services.UserContextService;
-using BookStorage.Services.UserService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStorage.Controllers

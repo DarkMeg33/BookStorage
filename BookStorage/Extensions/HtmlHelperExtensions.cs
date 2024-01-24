@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace BookStorage.Extensions
 {
@@ -22,7 +23,7 @@ namespace BookStorage.Extensions
         public static Task<IHtmlContent> SetClientSideJavascriptVariableAsync<TModel>(
             this IHtmlHelper<TModel> helper, string key, object value)
         {
-            return WrapWithScriptTag(helper.Raw($"_set('{key}', {JsonConvert.SerializeObject(value)})"));
+            return WrapWithScriptTag(helper.Raw($@"_set('{key}', {JsonConvert.SerializeObject(value)})"));
         }
     }
 }
