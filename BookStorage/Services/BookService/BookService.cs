@@ -16,7 +16,7 @@ namespace BookStorage.Services.BookService
             _bookRepository.Attach(unitOfWork);
         }
 
-        public async Task<List<BookDto>> GetBooksDtosAsync()
+        public async Task<List<BookDto>> GetBookDtosAsync()
         {
             return (await _bookRepository.GetBooksAsync())
                 .Select(x => new BookDto(x))

@@ -5,7 +5,7 @@ namespace BookStorage.Services.BookService
 {
     public interface IBookService
     {
-        Task<List<BookDto>> GetBooksDtosAsync();
+        Task<List<BookDto>> GetBookDtosAsync();
         Task<GetBookDto> GetBookDtoAsync(int bookId);
         Task<BookViewModel> GetBookViewModelAsync(int bookId);
     }

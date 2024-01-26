@@ -17,7 +17,7 @@ namespace BookStorage.Controllers
         [HttpGet("/books")]
         public async Task<IActionResult> GetBooks()
         {
-            return Json(await _bookService.GetBooksDtosAsync());
+            return Json(await _bookService.GetBookDtosAsync());
         }
 
         [HttpGet("/book/{bookId}/view")]
