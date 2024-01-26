@@ -7,6 +7,7 @@ namespace BookStorage.Controllers
 {
     [AllowAnonymous]
     [Route("/account")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class AccountController : BaseController
     {
         private readonly IAccountService _accountService;
@@ -17,7 +18,6 @@ namespace BookStorage.Controllers
         }
 
         [HttpGet("login")]
-        [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult SignInUp([FromQuery] string returnUrl)
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
@@ -41,7 +41,7 @@ namespace BookStorage.Controllers
         }
         
         [Route("sign-out")]
-        [ApiExplorerSettings(IgnoreApi = true)]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             if (_accountService.IsUserAuthenticated())
