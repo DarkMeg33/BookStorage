@@ -41,6 +41,7 @@ namespace BookStorage.Controllers
         }
         
         [Route("sign-out")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> Logout()
         {
             if (_accountService.IsUserAuthenticated())

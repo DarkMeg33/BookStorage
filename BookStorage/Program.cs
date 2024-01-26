@@ -59,6 +59,8 @@ namespace BookStorage
             builder.Services.AddUnitOfWork();
             builder.Services.AddSwaggerDocs();
 
+            builder.Services.AddAzureBlobStorage(_appSettings);
+
             #region Repositories
 
             builder.Services.AddScoped<IBookRepository, BookRepository>();
