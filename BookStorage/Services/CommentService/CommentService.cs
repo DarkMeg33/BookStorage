@@ -18,14 +18,21 @@ namespace BookStorage.Services.CommentService
             _commentRepository.Attach(unitOfWork);
         }
 
-        public async Task<List<GetCommentDto>> GetCommentsAsync(int bookId)
+        public async Task<List<GetCommentDto>> GetCommentDtosAsync(int bookId)
         {
             return (await _commentRepository.GetCommentsAsync(bookId))
                 .Select(e => new GetCommentDto(e))
                 .ToList();
         }
 
-        public async Task<DataEndpointResultDto<GetCommentDto>> UpsertCommentAsync(CommentViewModel viewModel, 
+        public async Task<List<CommentViewModel>> GetCommentViewModelsAsync(int bookId)
+        {
+            return (await _commentRepository.GetCommentsAsync(bookId))
+                .Select(e => new CommentViewModel(e))
+                .ToList();
+        }
+
+        public async Task<DataEndpointResultDto<GetCommentDto>> TryUpsertCommentAsync(NewCommentViewModel viewModel, 
             int bookId, int currentUserId)
         {
             Dictionary<string, string> errors = new();

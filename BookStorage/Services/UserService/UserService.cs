@@ -15,17 +15,17 @@ namespace BookStorage.Services.UserService
             _userRepository.Attach(unitOfWork);
         }
 
-        public async Task<UserDto> GetUserAsync(int id)
+        public async Task<UserDto> GetUserDtoAsync(int id)
         {
             return new UserDto(await _userRepository.GetUserAsync(id));
         }
 
-        public async Task<UserDto> GetUserAsync(string email)
+        public async Task<UserDto> GetUserDtoAsync(string email)
         {
             return new UserDto(await _userRepository.GetUserAsync(email));
         }
 
-        public async Task<UserDto> GetUserByUsernameAsync(string username)
+        public async Task<UserDto> GetUserDtoByUsernameAsync(string username)
         {
             throw new NotImplementedException();
         }

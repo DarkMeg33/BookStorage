@@ -9,7 +9,7 @@ namespace BookStorage.Models.Entities.BookEntities
             BookId = dto.BookId;
             Title = dto.Title;
             Description = dto.Description;
-            Author = dto.Author;
+            AuthorId = dto.AuthorId;
         }
     }
 }

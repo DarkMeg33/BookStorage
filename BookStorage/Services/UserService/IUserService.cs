@@ -6,8 +6,8 @@ namespace BookStorage.Services.UserService
 {
     public interface IUserService
     {
-        Task<UserDto> GetUserAsync(int id);
-        Task<UserDto> GetUserAsync(string email);
-        Task<UserDto> GetUserByUsernameAsync(string username);
+        Task<UserDto> GetUserDtoAsync(int id);
+        Task<UserDto> GetUserDtoAsync(string email);
+        Task<UserDto> GetUserDtoByUsernameAsync(string username);
     }
 }

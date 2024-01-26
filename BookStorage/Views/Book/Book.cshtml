@@ -1,16 +1,17 @@
 ﻿@using BookStorage.Extensions
-@using BookStorage.Models.Dto.CommentDto
+@using BookStorage.Models.ViewModels.CommentViewModel
 @using BookStorage.Services.CommentService
 @using BookStorage.Services.UserContextService
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 
-@model BookStorage.Models.Dto.BookDto.GetBookDto
+@model BookStorage.Models.ViewModels.BookViewModel.BookViewModel
 
 @{
     ViewData["Title"] = Model.Title;
     IUserContextService userContextService = Context.GetService<IUserContextService>();
     ICommentService commentService = Context.GetService<ICommentService>();
 
-    List<GetCommentDto> comments = await commentService.GetCommentsAsync(Model.BookId!.Value);
+    List<CommentViewModel> comments = await commentService.GetCommentViewModelsAsync(Model.BookId!.Value);
 }
 
 

@@ -6,8 +6,9 @@ namespace BookStorage.Services.CommentService
 {
     public interface ICommentService
     {
-        Task<List<GetCommentDto>> GetCommentsAsync(int bookId);
-        Task<DataEndpointResultDto<GetCommentDto>> UpsertCommentAsync(CommentViewModel viewModel, int bookId,
+        Task<List<GetCommentDto>> GetCommentDtosAsync(int bookId);
+        Task<List<CommentViewModel>> GetCommentViewModelsAsync(int bookId);
+        Task<DataEndpointResultDto<GetCommentDto>> TryUpsertCommentAsync(NewCommentViewModel viewModel, int bookId,
             int currentUserId);
     }
 }

@@ -19,14 +19,14 @@ namespace BookStorage.Controllers
         [HttpGet("/book/{bookId}/comments")]
         public async Task<IActionResult> GetComments(int bookId)
         {
-            return Json(await _commentService.GetCommentsAsync(bookId));
+            return Json(await _commentService.GetCommentDtosAsync(bookId));
         }
 
         [HttpPost("/book/{bookId}/comment")]
-        public async Task<IActionResult> UpsertCommentAsync(CommentViewModel commentViewModel, int bookId)
+        public async Task<IActionResult> UpsertCommentAsync(NewCommentViewModel commentViewModel, int bookId)
         {
             return DynamicResultResponse(
-                await _commentService.UpsertCommentAsync(commentViewModel, bookId, 
+                await _commentService.TryUpsertCommentAsync(commentViewModel, bookId, 
                     await _userContextService.GetUserIdAsync()));
         }
     }
