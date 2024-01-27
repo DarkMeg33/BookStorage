@@ -8,7 +8,7 @@ namespace BookStorage.Services.CommentService
     {
         Task<List<GetCommentDto>> GetCommentDtosAsync(int bookId);
         Task<List<CommentViewModel>> GetCommentViewModelsAsync(int bookId);
-        Task<DataEndpointResultDto<GetCommentDto>> TryUpsertCommentAsync(NewCommentViewModel viewModel, int bookId,
+        Task<DataEndpointResultDto<GetCommentDto>> TryUpsertCommentAsync(FormCommentViewModel viewModel, int bookId,
             int currentUserId);
     }
 }

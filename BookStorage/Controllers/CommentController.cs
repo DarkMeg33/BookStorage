@@ -23,7 +23,7 @@ namespace BookStorage.Controllers
         }
 
         [HttpPost("/book/{bookId}/comment")]
-        public async Task<IActionResult> UpsertCommentAsync(NewCommentViewModel commentViewModel, int bookId)
+        public async Task<IActionResult> UpsertCommentAsync(FormCommentViewModel commentViewModel, int bookId)
         {
             return DynamicResultResponse(
                 await _commentService.TryUpsertCommentAsync(commentViewModel, bookId, 

@@ -32,7 +32,7 @@ namespace BookStorage.Services.CommentService
                 .ToList();
         }
 
-        public async Task<DataEndpointResultDto<GetCommentDto>> TryUpsertCommentAsync(NewCommentViewModel viewModel, 
+        public async Task<DataEndpointResultDto<GetCommentDto>> TryUpsertCommentAsync(FormCommentViewModel viewModel, 
             int bookId, int currentUserId)
         {
             Dictionary<string, string> errors = new();

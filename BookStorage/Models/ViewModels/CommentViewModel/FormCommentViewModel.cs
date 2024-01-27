@@ -1,6 +1,6 @@
 ﻿namespace BookStorage.Models.ViewModels.CommentViewModel
 {
-    public class NewCommentViewModel
+    public class FormCommentViewModel
     {
         public string Text { get; set; }
     }
