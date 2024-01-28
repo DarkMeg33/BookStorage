@@ -1,0 +1,132 @@
+﻿@using BookStorage.Extensions
+@using BookStorage.Models.ViewModels.CommentViewModel
+@using BookStorage.Services.CommentService
+@using BookStorage.Services.UserContextService
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model BookStorage.Models.ViewModels.BookViewModel.BookViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+    IUserContextService userContextService = Context.GetService<IUserContextService>();
+    ICommentService commentService = Context.GetService<ICommentService>();
+
+    List<CommentViewModel> comments = await commentService.GetCommentViewModelsAsync(Model.BookId!.Value);
+}
+
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/book-view.css" />
+}
+
+@section Scripts
+{
+    <script src="~/js/book-view.js"></script>
+
+    @await Html.SetClientSideJavascriptVariableAsync("bookId",  Model.BookId)
+    @await Html.SetClientSideJavascriptVariableAsync("comments",  comments)
+}
+
+<div class="ui main container">
+    <div class="ui grid">
+        <div class="twelve wide column">
+            <div class="ui segment">
+                <div class="ui grid">
+                    <div class="six wide column">
+                        <div class="ui fluid rounded image">
+                            <img src="/images/book/book-img.jpg" alt="" />
+                        </div>
+                        <div class="ui fluid positive button m-top-15">Read</div>
+                    </div>
+                    <div class="ten wide column">
+                        <h1 class="ui dividing header">
+                            @Model.Title
+                        </h1>
+                        <a class="ui blue header">
+                            @Model.AuthorName
+                        </a>
+                        <h5 class="ui header">Annotation</h5>
+                        <div class="ui black stacked segment">
+                            <div>
+                                <span class="ui text">
+                                    @Model.Description
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui segment">
+                <h3 class="ui dividing header">Comments</h3>
+                @if (userContextService.IsUserAuthenticated())
+                {
+                    <form class="ui reply form" id="comment-form" onsubmit="return false">
+                        <div class="field">
+                            <textarea name="text" placeholder="Write a message..."></textarea>
+                        </div>
+                        <div id="comment-btn" 
+                             class="ui blue labeled submit icon button">
+                            <i class="icon edit"></i> Add Reply
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="ui blue segment">
+                        <h3 class="ui centered header">Ts
+                            Authorize to write a comment
+                        </h3>
+                    </div>
+                }
+                <div id="comment-app" class="m-top-15">
+                    <div v-if="comments.length">
+                        <div class="ui comments" v-for="comment in comments">
+                            <div class="comment">
+                                <a class="avatar">
+                                    <img src="/images/avatar/small/joe.jpg">
+                                </a>
+                                <div class="content">
+                                    <a class="author">{{ comment.authorName }}</a>
+                                    <div class="metadata">
+                                        <span class="date">{{ comment.createdAt }}</span>
+                                    </div>
+                                    <div class="text">
+                                        {{ comment.text }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div class="ui segment">
+                            There are no comments yet.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="four wide column">
+            <div class="ui card">
+                <div class="image">
+                    <img src="/images/avatar/large/kristy.png">
+                </div>
+                <div class="content">
+                    <a class="header">Kristy</a>
+                    <div class="meta">
+                        <span class="date">Joined in 2013</span>
+                    </div>
+                    <div class="description">
+                        Book writer.
+                    </div>
+                </div>
+                <div class="extra content">
+                    <a>
+                        <i class="user icon"></i>
+                        22 Friends
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

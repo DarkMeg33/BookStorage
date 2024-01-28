@@ -1,5 +1,4 @@
-﻿using BookStorage.Models.Dto.BookDto;
-using BookStorage.Models.ViewModels.BookViewModel;
+﻿using BookStorage.Models.ViewModels.BookViewModel;
 using BookStorage.Services.BookService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +25,20 @@ namespace BookStorage.Controllers
         {
             BookViewModel book = await _bookService.GetBookViewModelAsync(bookId);
 
-            return View("Book", book);
+            return View("BookView", book);
+        }
+
+        [HttpGet("/book")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<IActionResult> CreateBook()
+        {
+            return View("Book");
+        }
+
+        [HttpPost("/book")]
+        public async Task<IActionResult> UpsertBook(FormBookViewModel viewModel)
+        {
+            return View("Book");
         }
     }
 }
