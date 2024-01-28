@@ -1,5 +1,6 @@
 ﻿using BookStorage.Models.ViewModels.BookViewModel;
 using BookStorage.Services.BookService;
+using BookStorage.Services.UserContextService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStorage.Controllers
@@ -7,10 +8,12 @@ namespace BookStorage.Controllers
     public class BookController : BaseController
     {
         private readonly IBookService _bookService;
+        private readonly IUserContextService _userContextService;
 
-        public BookController(IBookService bookService)
+        public BookController(IBookService bookService, IUserContextService userContextService)
         {
             _bookService = bookService;
+            _userContextService = userContextService;
         }
 
         [HttpGet("/books")]
@@ -38,7 +41,8 @@ namespace BookStorage.Controllers
         [HttpPost("/book")]
         public async Task<IActionResult> UpsertBook(FormBookViewModel viewModel)
         {
-            return View("Book");
+            return DynamicResultResponse(await _bookService.TryUpsertBookAsync(viewModel,
+                await _userContextService.GetUserIdAsync()));
         }
     }
 }
