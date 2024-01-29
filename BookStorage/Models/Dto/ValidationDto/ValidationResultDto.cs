@@ -4,7 +4,7 @@ namespace BookStorage.Models.Dto.ValidationDto
 {
     public class ValidationResultDto
     {
-        List<ValidationErrorDto> Errors { get; }
+        public List<ValidationErrorDto> Errors { get; }
 
         public ValidationResultDto(ModelStateDictionary modelState)
         {

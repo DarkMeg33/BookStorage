@@ -28,7 +28,7 @@ function setupFormValidation() {
                 rules: [
                     {
                         type: 'empty',
-                        prompt: 'Input should be populated'
+                        prompt: 'Title should be populated'
                     }
                 ]
             },
@@ -37,7 +37,7 @@ function setupFormValidation() {
                 rules: [
                     {
                         type: 'empty',
-                        prompt: 'Input should be populated'
+                        prompt: 'Description should be populated'
                     }
                 ]
             },

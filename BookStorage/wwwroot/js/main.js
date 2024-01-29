@@ -84,10 +84,8 @@ function handleFormSubmit(cfg) {
                 form.form('clear');
             })
             .catch((error) => {
-                //todo handle errors
-
                 if (error.response) {
-
+                    handleErrorResponse(error, cfg.errorMessage);
                 } else {
                     showError("An unexpected error has occurred. Please try again later.");
                 }
@@ -97,6 +95,22 @@ function handleFormSubmit(cfg) {
             });
     }
     
+}
+
+function handleErrorResponse(error, message) {
+    if (!!error && !!error.response && !!error.response.data) {
+        let errors = error.response.data.errors;
+
+        if (!!errors && errors.length > 0) {
+            for (let i = 0; i < errors.length; i++) {
+                showError(errors[i].message);
+            }
+        }
+    }
+
+    if (message !== undefined) {
+        showError(message);
+    }
 }
 
 function showToast(message, toastType) {
