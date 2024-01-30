@@ -118,6 +118,7 @@ function setupFormValidation() {
 
 function setupTabs() {
     $('.menu .item').tab({
+        history: true,
         onVisible: (tabPath) => {
             if (!!tabPath && tabPath === 'sign-in') {
                 changePageTitle('Sign in');
