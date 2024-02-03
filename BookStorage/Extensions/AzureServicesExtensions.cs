@@ -1,6 +1,6 @@
 ﻿using Azure.Storage;
-using BookStorage.Services.CloudStorageService;
 using BookStorage.Services.FileStorageService;
+using BookStorage.Services.StorageProviderService;
 using BookStorage.Settings;
 using Microsoft.Extensions.Azure;
 
@@ -22,7 +22,7 @@ namespace BookStorage.Extensions
                 cfg.AddBlobServiceClient(new Uri(blobUri), credential);
             });
 
-            services.AddScoped<ICloudStorageService, AzureBlobStorageService>();
+            services.AddScoped<IStorageProviderService, AzureBlobStorageService>();
             services.AddScoped<IFileStorageService, FileStorageService>();
         }
     }

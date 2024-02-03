@@ -1,9 +1,8 @@
-﻿using Azure;
-using Azure.Storage.Blobs;
+﻿using Azure.Storage.Blobs;
 
-namespace BookStorage.Services.CloudStorageService
+namespace BookStorage.Services.StorageProviderService
 {
-    public class AzureBlobStorageService : ICloudStorageService
+    public class AzureBlobStorageService : IStorageProviderService
     {
         private readonly BlobServiceClient _serviceClient;
 

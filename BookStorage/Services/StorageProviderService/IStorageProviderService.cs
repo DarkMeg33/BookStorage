@@ -1,6 +1,6 @@
-﻿namespace BookStorage.Services.CloudStorageService
+﻿namespace BookStorage.Services.StorageProviderService
 {
-    public interface ICloudStorageService
+    public interface IStorageProviderService
     {
         Task<Stream> GetFileStreamAsync(string containerName, string filename);
         Task<string> UploadFileAsync(string containerName, string filename, byte[] content);

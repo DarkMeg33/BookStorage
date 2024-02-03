@@ -24,7 +24,7 @@ namespace BookStorage.Controllers
 
         [HttpGet("/book/{bookId}/view")]
         [ApiExplorerSettings(IgnoreApi = true)]
-        public async Task<IActionResult> GetBook([FromRoute] int bookId)
+        public async Task<IActionResult> BookView([FromRoute] int bookId)
         {
             BookViewModel book = await _bookService.GetBookViewModelAsync(bookId);
 
