@@ -45,7 +45,46 @@ function setupFormValidation() {
     });
 }
 
+function registerFilepond() {
+    $.fn.filepond.registerPlugin(
+        FilePondPluginFileValidateSize,
+        FilePondPluginImagePreview,
+        FilePondPluginFileValidateType);
+
+    $.fn.filepond.setDefaults({
+        maxFileSize: '3MB',
+    });
+
+    $('#filepond').filepond();
+
+    //FilePond.registerPlugin(
+    //    FilePondPluginFileValidateType,
+    //    FilePondPluginImageExifOrientation,
+    //    FilePondPluginImagePreview,
+    //    FilePondPluginImageCrop,
+    //    FilePondPluginImageResize,
+    //    FilePondPluginImageTransform,
+    //    FilePondPluginImageEdit
+    //);
+    //FilePond.create(
+    //    document.getElementById('filepond'),
+    //    {
+    //        labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
+    //        imagePreviewHeight: 170,
+    //        imageCropAspectRatio: '1:1',
+    //        imageResizeTargetWidth: 200,
+    //        imageResizeTargetHeight: 200,
+    //        stylePanelLayout: 'compact circle',
+    //        styleLoadIndicatorPosition: 'center bottom',
+    //        styleProgressIndicatorPosition: 'right bottom',
+    //        styleButtonRemoveItemPosition: 'left bottom',
+    //        styleButtonProcessItemPosition: 'right bottom',
+    //    }
+    //);
+}
+
 $(function () {
     bindForms();
     setupFormValidation();
+    registerFilepond();
 });
