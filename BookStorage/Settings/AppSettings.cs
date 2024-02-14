@@ -20,11 +20,26 @@ namespace BookStorage.Settings
         [JsonProperty("ServiceUri")] public string ServiceUri { get; set; }
     }
 
+    public class FileValidationSettings
+    {
+        [JsonProperty("BookCoverImage")] public FileValidation BookCoverImage { get; set; }
+    }
+
+    public class FileValidation
+    {
+        [JsonProperty("MaxAttachmentSize")] public int MaxAttachmentSize { get; set; }
+        [JsonProperty("AllowedAttachmentTypes")] public List<string> AllowedAttachmentTypes { get; set; }
+
+        public int MaxAttachmentSizeInMb { get; set; }
+        public List<string> AllowedExtensionTypes { get; set; }
+    }
+
     public class AppSettings
     {
         [JsonProperty("ConnectionStrings")] public ConnectionStrings ConnectionStrings { get; set; }
         [JsonProperty("WebsiteName")] public string WebsiteName { get; set; }
         [JsonProperty("CookieSettings")] public CookieSettings CookieSettings { get; set; }
         [JsonProperty("AzureBlobStorage")] public AzureBlobStorage AzureBlobStorage { get; set; }
+        [JsonProperty("FileValidationSettings")] public FileValidationSettings FileValidationSettings { get; set; }
     }
 }
