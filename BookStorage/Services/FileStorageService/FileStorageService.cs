@@ -15,19 +15,28 @@ namespace BookStorage.Services.FileStorageService
 
         #region Book
 
-        public async Task<Stream> GetBookCoverAsync(string filename)
+        public async Task<Stream> GetBookCoverAsync(string storageReference)
         {
-            return await _storageProviderService.GetFileStreamAsync(BookCoversDirectory, filename);
+            return await _storageProviderService.GetFileStreamAsync(BookCoversDirectory, storageReference);
         }
 
         public async Task<string> SaveBookCoverAsync(string filename, byte[] content)
         {
-            return await _storageProviderService.UploadFileAsync(BookCoversDirectory, filename, content);
+            return await _storageProviderService.UploadFileAsync(BookCoversDirectory, GenerateReference(filename), content);
         }
 
-        public async Task<bool> DeleteBookCoverAsync(string filename)
+        public async Task<bool> DeleteBookCoverAsync(string storageReference)
         {
-            return await _storageProviderService.DeleteFileAsync(BookCoversDirectory, filename);
+            return await _storageProviderService.DeleteFileAsync(BookCoversDirectory, storageReference);
+        }
+
+        #endregion
+
+        #region Private
+
+        private string GenerateReference(string originalName)
+        {
+            return $"{Guid.NewGuid().ToString()}{Path.GetExtension(originalName)}";
         }
 
         #endregion

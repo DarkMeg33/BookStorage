@@ -4,19 +4,26 @@ using BookStorage.Models.Entities.BookEntities;
 using BookStorage.Models.ViewModels.BookViewModel;
 using BookStorage.Repositories.Base;
 using BookStorage.Repositories.BookRepository;
+using BookStorage.Services.FileStorageService;
 
 namespace BookStorage.Services.BookService
 {
     public class BookService : IBookService
     {
         private readonly IBookRepository _bookRepository;
+        private readonly IFileStorageService _fileStorageService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BookService(IBookRepository bookRepository, IUnitOfWork unitOfWork)
+        public BookService(IBookRepository bookRepository, IUnitOfWork unitOfWork, IFileStorageService fileStorageService)
         {
             _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
+            _fileStorageService = fileStorageService;
 
             _bookRepository.Attach(unitOfWork);
         }
+
+        #region Book
 
         public async Task<List<BookDto>> GetBookDtosAsync()
         {
@@ -48,6 +55,8 @@ namespace BookStorage.Services.BookService
                 return new DataEndpointResultDto<GetBookDto>(false, null, errors);
             }
 
+            _unitOfWork.Begin();
+
             try
             {
                 RetrieveBookEntity upsertedBook 
@@ -55,16 +64,54 @@ namespace BookStorage.Services.BookService
 
                 if (upsertedBook == null)
                 {
+                    _unitOfWork.RollBack();
                     return new DataEndpointResultDto<GetBookDto>(false, null, errors);
                 }
 
+                if (false) //todo add file validation
+                {
+
+                }
+
+                await using MemoryStream ms = new MemoryStream();
+                await bookViewModel.BookCoverImage.CopyToAsync(ms);
+                byte[] fileContent = ms.ToArray();
+
+                string newStorageReference = 
+                    await _fileStorageService.SaveBookCoverAsync(bookViewModel.BookCoverImage.FileName, fileContent);
+
+                if (string.IsNullOrWhiteSpace(newStorageReference))
+                {
+                    _unitOfWork.RollBack();
+                    errors.Add(nameof(newStorageReference), "Cover hasn't been saved");
+                    return new DataEndpointResultDto<GetBookDto>(false, null, errors);
+                }
+
+                if (!(await _bookRepository.UpdateBookCoverAsync(upsertedBook.BookId!.Value, newStorageReference)))
+                {
+                    _unitOfWork.RollBack();
+                    errors.Add(nameof(newStorageReference), "Cover hasn't been saved");
+                    return new DataEndpointResultDto<GetBookDto>(false, null, errors);
+                }
+
+                string oldStorageReference = upsertedBook.CoverStorageReference;
+
+                if (!string.IsNullOrWhiteSpace(oldStorageReference))
+                {
+                    await _fileStorageService.DeleteBookCoverAsync(oldStorageReference);
+                }
+
+                _unitOfWork.Commit();
                 return new DataEndpointResultDto<GetBookDto>(true, new GetBookDto(upsertedBook), errors);
             }
             catch (Exception e)
             {
+                _unitOfWork.RollBack();
                 Console.WriteLine(e);
                 return new DataEndpointResultDto<GetBookDto>(false, null, errors);
             }
         }
+
+        #endregion
     }
 }

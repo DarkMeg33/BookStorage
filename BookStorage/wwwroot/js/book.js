@@ -1,4 +1,4 @@
-﻿let commentApp;
+﻿let filepond;
 
 function bindForms() {
     bindFormSubmit({
@@ -16,6 +16,12 @@ function bindForms() {
             if (response.data) {
                 goTo(`/book/${response.data.bookId}/view`)
             }
+        },
+        formDataBeforeSubmitFn: (formData)  => {
+            let files = filepond.getFiles();
+            formData.append('bookCoverImage', files[0].file);
+
+            return formData;
         }
     });
 }
@@ -46,41 +52,29 @@ function setupFormValidation() {
 }
 
 function registerFilepond() {
-    $.fn.filepond.registerPlugin(
-        FilePondPluginFileValidateSize,
-        FilePondPluginImagePreview,
-        FilePondPluginFileValidateType);
-
-    $.fn.filepond.setDefaults({
-        maxFileSize: '3MB',
-    });
-
-    $('#filepond').filepond();
-
-    //FilePond.registerPlugin(
-    //    FilePondPluginFileValidateType,
-    //    FilePondPluginImageExifOrientation,
+    //$.fn.filepond.registerPlugin(
+    //    FilePondPluginFileValidateSize,
     //    FilePondPluginImagePreview,
-    //    FilePondPluginImageCrop,
-    //    FilePondPluginImageResize,
-    //    FilePondPluginImageTransform,
-    //    FilePondPluginImageEdit
-    //);
-    //FilePond.create(
-    //    document.getElementById('filepond'),
-    //    {
-    //        labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
-    //        imagePreviewHeight: 170,
-    //        imageCropAspectRatio: '1:1',
-    //        imageResizeTargetWidth: 200,
-    //        imageResizeTargetHeight: 200,
-    //        stylePanelLayout: 'compact circle',
-    //        styleLoadIndicatorPosition: 'center bottom',
-    //        styleProgressIndicatorPosition: 'right bottom',
-    //        styleButtonRemoveItemPosition: 'left bottom',
-    //        styleButtonProcessItemPosition: 'right bottom',
-    //    }
-    //);
+    //    FilePondPluginFileValidateType);
+
+    //$.fn.filepond.setDefaults({
+    //    maxFileSize: '3MB',
+    //});
+
+    //filepond = $('#filepond').filepond();
+
+    FilePond.registerPlugin(
+        FilePondPluginFileValidateType,
+        FilePondPluginImagePreview,
+        FilePondPluginFileValidateSize
+    );
+
+    filepond = FilePond.create(
+        document.getElementById('filepond'),
+        {
+            maxFileSize: '3MB',
+        }
+    );
 }
 
 $(function () {

@@ -6,6 +6,8 @@ namespace BookStorage.Repositories.BookRepository
 {
     public class BookRepository : BaseRepository, IBookRepository
     {
+        #region Book
+
         public async Task<List<RetrieveBookEntity>> GetBooksAsync()
         {
             return await GetAllAsync<RetrieveBookEntity>("Book_Select");
@@ -25,5 +27,16 @@ namespace BookStorage.Repositories.BookRepository
         {
             return await GetAsync<RetrieveBookEntity>("Book_Upsert", entity);
         }
+
+        #endregion
+
+        #region BookCover
+
+        public async Task<bool> UpdateBookCoverAsync(int bookId, string storageReference)
+        {
+            return await ExecuteAsync("BookCover_Update", new { bookId, storageReference });
+        }
+
+        #endregion
     }
 }

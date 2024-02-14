@@ -1,4 +1,5 @@
 ﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 
 namespace BookStorage.Services.StorageProviderService
 {
@@ -32,6 +33,7 @@ namespace BookStorage.Services.StorageProviderService
             try
             {
                 BlobContainerClient containerClient = _serviceClient.GetBlobContainerClient(containerName);
+                await containerClient.CreateIfNotExistsAsync();
                 BlobClient blobClient = containerClient.GetBlobClient(filename);
 
                 await using Stream stream = new MemoryStream(content);

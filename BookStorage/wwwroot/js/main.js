@@ -8,6 +8,7 @@ class FormCfg {
     onFailFn;
     successMessage;
     errorMessage;
+    formDataBeforeSubmitFn;
 }
 
 function setBtnLoading(id) {
@@ -61,6 +62,11 @@ function handleFormSubmit(cfg) {
     }
 
     let formData = new FormData(form[0]);
+
+    if (!!cfg.formDataBeforeSubmitFn) {
+        formData = cfg.formDataBeforeSubmitFn(formData);
+    }
+
     let requestFnPromise;
 
     if (!!cfg.methodFn && cfg.methodFn() === 'post') {
