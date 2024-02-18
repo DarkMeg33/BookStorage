@@ -21,6 +21,14 @@ namespace BookStorage.Services.FileValidationService
                 out errorMessage, out var _);
         }
 
+        public bool IsBookFileValid(IFormFile file, out string errorMessage)
+        {
+            return TryValidateFile(new ValidationFile(file),
+                _appSettings.FileValidationSettings.BookFile.MaxAttachmentSize,
+                _appSettings.FileValidationSettings.BookFile.AllowedAttachmentTypes,
+                out errorMessage, out var _);
+        }
+
         #region Private
 
         private bool IsValidFile(ValidationFile file, int? maxSize, List<string> acceptableFormats,

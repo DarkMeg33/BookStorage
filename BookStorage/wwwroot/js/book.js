@@ -1,4 +1,5 @@
-﻿let filepond;
+﻿let bookCoverFilepond;
+let bookFileFilepond;
 
 function bindForms() {
     bindFormSubmit({
@@ -18,8 +19,15 @@ function bindForms() {
             }
         },
         formDataBeforeSubmitFn: (formData)  => {
-            let files = filepond.getFiles();
-            formData.append('bookCoverImage', files[0].file);
+            let bookCoverFiles = bookCoverFilepond.getFiles();
+            if (!!bookCoverFiles[0]) {
+                formData.append('bookCoverImage', bookCoverFiles[0].file);
+            }
+
+            let bookFiles = bookFileFilepond.getFiles();
+            if (!!bookFiles[0]) {
+                formData.append('bookFile', bookFiles[0].file);
+            }
 
             return formData;
         }
@@ -46,33 +54,36 @@ function setupFormValidation() {
                         prompt: 'Description should be populated'
                     }
                 ]
-            },
+            }
         }
     });
 }
 
-function registerFilepond() {
-    //$.fn.filepond.registerPlugin(
-    //    FilePondPluginFileValidateSize,
-    //    FilePondPluginImagePreview,
-    //    FilePondPluginFileValidateType);
-
-    //$.fn.filepond.setDefaults({
-    //    maxFileSize: '3MB',
-    //});
-
-    //filepond = $('#filepond').filepond();
-
+function registerBookCoverFilepond() {
     FilePond.registerPlugin(
         FilePondPluginFileValidateType,
         FilePondPluginImagePreview,
         FilePondPluginFileValidateSize
     );
 
-    filepond = FilePond.create(
-        document.getElementById('filepond'),
+    bookCoverFilepond = FilePond.create(
+        document.getElementById('book-cover'),
         {
             maxFileSize: _get('bookCoverMaxSizeInMb'),
+        }
+    );
+}
+
+function registerBookFileFilepond() {
+    FilePond.registerPlugin(
+        FilePondPluginFileValidateType,
+        FilePondPluginFileValidateSize
+    );
+
+    bookFileFilepond = FilePond.create(
+        document.getElementById('book-file'),
+        {
+            maxFileSize: _get('bookFileMaxSizeInMb'),
         }
     );
 }
@@ -80,5 +91,6 @@ function registerFilepond() {
 $(function () {
     bindForms();
     setupFormValidation();
-    registerFilepond();
+    registerBookCoverFilepond();
+    registerBookFileFilepond();
 });

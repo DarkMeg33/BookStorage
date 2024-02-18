@@ -16,6 +16,7 @@
     <script src="~/js/book.js"></script>
     
     @await Html.SetClientSideJavascriptVariableAsync("bookCoverMaxSizeInMb", appSettings.FileValidationSettings.BookCoverImage.MaxAttachmentSizeInMb)
+    @await Html.SetClientSideJavascriptVariableAsync("bookFileMaxSizeInMb", appSettings.FileValidationSettings.BookFile.MaxAttachmentSizeInMb)
 }
 
 <div class="ui main container">
@@ -50,24 +51,22 @@
                                 <textarea type="text" name="description" placeholder="Annotation"></textarea>
                             </div>
                         </div>
+                        <div class="field">
+                            <input type="file" 
+                                   id="book-file"
+                                   class="filepond"
+                                   name="filepond"
+                                   accept="@string.Join(",", appSettings.FileValidationSettings.BookFile.AllowedAttachmentTypes)"/>
+
+                        </div>
                     </div>
                     <div class="two wide column"></div>
                     <div class="six wide column">
                         <input type="file" 
-                               id="filepond"
+                               id="book-cover"
                                class="filepond"
                                name="filepond"
                                accept="@string.Join(",", appSettings.FileValidationSettings.BookCoverImage.AllowedAttachmentTypes)"/>
-                        @*  <div class="field">
-                            
-                        </div>
-                        <input type="file" name="bookCoverImage" id="cover" class="ui invisible file input">
-                        <label for="cover" class="ui placeholder segment">
-                            <div class="ui icon header">
-                                <i class="upload icon"></i>
-                                Click here to upload cover
-                            </div>
-                        </label> *@
                     </div>
                 </div>
                 <div class="ui error message"></div>

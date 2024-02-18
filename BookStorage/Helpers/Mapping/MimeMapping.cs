@@ -37,6 +37,7 @@
         private static readonly Dictionary<string, string> _mappings
             = new Dictionary<string, string>(2000, StringComparer.InvariantCultureIgnoreCase)
             {
+                {".fb2", "application/x-fictionbook"},
                 {".ez", "application/andrew-inset"},
                 {".aw", "application/applixware"},
                 {".atom", "application/atom+xml"},
