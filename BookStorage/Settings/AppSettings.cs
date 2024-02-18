@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using BookStorage.Helpers.Formatter;
+using BookStorage.Helpers.Mapping;
+using Newtonsoft.Json;
 
 namespace BookStorage.Settings
 {
@@ -30,8 +32,24 @@ namespace BookStorage.Settings
         [JsonProperty("MaxAttachmentSize")] public int MaxAttachmentSize { get; set; }
         [JsonProperty("AllowedAttachmentTypes")] public List<string> AllowedAttachmentTypes { get; set; }
 
-        public int MaxAttachmentSizeInMb { get; set; }
-        public List<string> AllowedExtensionTypes { get; set; }
+        public string MaxAttachmentSizeInMb => StringFormatter.GetFormattedFileSize(MaxAttachmentSize);
+
+        public List<string> AllowedExtensionTypes
+        {
+            get
+            {
+                List<string> extensions = new List<string>();
+                if (AllowedAttachmentTypes.Any())
+                {
+                    foreach (string type in AllowedAttachmentTypes)
+                    {
+                        extensions.AddRange(MimeMapping.GetExtensionsFromMime(type));
+                    }    
+                }
+
+                return extensions;
+            }
+        }
     }
 
     public class AppSettings

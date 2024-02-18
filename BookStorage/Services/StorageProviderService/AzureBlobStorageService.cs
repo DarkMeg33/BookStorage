@@ -1,5 +1,6 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using BookStorage.Helpers.Mapping;
 
 namespace BookStorage.Services.StorageProviderService
 {
@@ -37,7 +38,8 @@ namespace BookStorage.Services.StorageProviderService
                 BlobClient blobClient = containerClient.GetBlobClient(filename);
 
                 await using Stream stream = new MemoryStream(content);
-                await blobClient.UploadAsync(stream);
+                await blobClient.UploadAsync(stream, 
+                    new BlobHttpHeaders() {ContentType = MimeMapping.GetMimeType(filename)});
 
                 return filename;
             }

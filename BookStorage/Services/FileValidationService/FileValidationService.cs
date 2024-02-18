@@ -15,8 +15,13 @@ namespace BookStorage.Services.FileValidationService
 
         public bool IsBookCoverValid(IFormFile file, out string errorMessage)
         {
-            throw new NotImplementedException();
+            return TryValidateFile(new ValidationFile(file),
+                _appSettings.FileValidationSettings.BookCoverImage.MaxAttachmentSize,
+                _appSettings.FileValidationSettings.BookCoverImage.AllowedAttachmentTypes,
+                out errorMessage, out var _);
         }
+
+        #region Private
 
         private bool IsValidFile(ValidationFile file, int? maxSize, List<string> acceptableFormats,
             out bool invalidSize, out bool invalidFormat)
@@ -54,7 +59,7 @@ namespace BookStorage.Services.FileValidationService
             return true;
         }
 
-        private bool TryValidateFile(ValidationFile file, int? maxSize, List<string> acceptableFormats, 
+        private bool TryValidateFile(ValidationFile file, int? maxSize, List<string> acceptableFormats,
             out string errorMessage, out FileValidationError? fileValidationError)
         {
             errorMessage = null;
@@ -93,5 +98,7 @@ namespace BookStorage.Services.FileValidationService
                 Length = file.Length;
             }
         }
+
+        #endregion
     }
 }

@@ -1,5 +1,9 @@
-﻿@{
+﻿@using BookStorage.Settings
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using BookStorage.Extensions
+@{
     ViewData["Title"] = "New book";
+    AppSettings appSettings = Context.GetService<AppSettings>();
 }
 
 @section Styles 
@@ -10,6 +14,8 @@
 @section Scripts
 {
     <script src="~/js/book.js"></script>
+    
+    @await Html.SetClientSideJavascriptVariableAsync("bookCoverMaxSizeInMb", appSettings.FileValidationSettings.BookCoverImage.MaxAttachmentSizeInMb)
 }
 
 <div class="ui main container">
@@ -51,7 +57,7 @@
                                id="filepond"
                                class="filepond"
                                name="filepond"
-                               accept="image/png, image/jpeg, image/gif" />
+                               accept="@string.Join(",", appSettings.FileValidationSettings.BookCoverImage.AllowedAttachmentTypes)"/>
                         @*  <div class="field">
                             
                         </div>

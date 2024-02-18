@@ -5,6 +5,7 @@ using BookStorage.Models.ViewModels.BookViewModel;
 using BookStorage.Repositories.Base;
 using BookStorage.Repositories.BookRepository;
 using BookStorage.Services.FileStorageService;
+using BookStorage.Services.FileValidationService;
 
 namespace BookStorage.Services.BookService
 {
@@ -12,13 +13,16 @@ namespace BookStorage.Services.BookService
     {
         private readonly IBookRepository _bookRepository;
         private readonly IFileStorageService _fileStorageService;
+        private readonly IFileValidationService _fileValidationService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public BookService(IBookRepository bookRepository, IUnitOfWork unitOfWork, IFileStorageService fileStorageService)
+        public BookService(IBookRepository bookRepository, IUnitOfWork unitOfWork, 
+            IFileStorageService fileStorageService, IFileValidationService fileValidationService)
         {
             _bookRepository = bookRepository;
             _unitOfWork = unitOfWork;
             _fileStorageService = fileStorageService;
+            _fileValidationService = fileValidationService;
 
             _bookRepository.Attach(unitOfWork);
         }
@@ -68,9 +72,10 @@ namespace BookStorage.Services.BookService
                     return new DataEndpointResultDto<GetBookDto>(false, null, errors);
                 }
 
-                if (false) //todo add file validation
+                if (!_fileValidationService.IsBookCoverValid(bookViewModel.BookCoverImage, out string errorMessage))
                 {
-
+                    errors.Add(nameof(bookViewModel.BookCoverImage), errorMessage);
+                    return new DataEndpointResultDto<GetBookDto>(false, null, errors);
                 }
 
                 await using MemoryStream ms = new MemoryStream();

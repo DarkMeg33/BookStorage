@@ -72,7 +72,7 @@ function registerFilepond() {
     filepond = FilePond.create(
         document.getElementById('filepond'),
         {
-            maxFileSize: '3MB',
+            maxFileSize: _get('bookCoverMaxSizeInMb'),
         }
     );
 }
