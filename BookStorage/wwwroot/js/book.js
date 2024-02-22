@@ -84,6 +84,15 @@ function registerBookFileFilepond() {
         document.getElementById('book-file'),
         {
             maxFileSize: _get('bookFileMaxSizeInMb'),
+            fileValidateTypeDetectType: (source, type) =>
+                new Promise((resolve, reject) => {
+                    if (source.name.toLowerCase().indexOf('.fb2') !== -1) {
+                        return resolve('application/x-fictionbook');
+                    }
+
+                    resolve(type);
+                }),
+            fileValidateTypeLabelExpectedTypes: 'Expects {allButLastType} or {lastType}'
         }
     );
 }

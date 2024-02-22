@@ -56,7 +56,9 @@
                                    id="book-file"
                                    class="filepond"
                                    name="filepond"
-                                   accept="@string.Join(",", appSettings.FileValidationSettings.BookFile.AllowedAttachmentTypes)"/>
+                                   accept="@string.Join(",", 
+                                               appSettings.FileValidationSettings.BookFile.AllowedExtensionTypes
+                                                   .Concat(appSettings.FileValidationSettings.BookFile.AllowedAttachmentTypes))" />
 
                         </div>
                     </div>
