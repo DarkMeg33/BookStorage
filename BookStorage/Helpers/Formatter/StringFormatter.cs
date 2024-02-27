@@ -13,5 +13,10 @@
 
             return $"{sizeInKb}KB";
         }
+
+        public static string FormatName(string firstname, string lastname, string separator = " ")
+        {
+            return $"{firstname}{separator}{lastname}";
+        }
     }
 }

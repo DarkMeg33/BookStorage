@@ -4,6 +4,7 @@ using BookStorage.Models.Entities.BookEntities;
 using BookStorage.Models.ViewModels.BookViewModel;
 using BookStorage.Repositories.Base;
 using BookStorage.Repositories.BookRepository;
+using BookStorage.Services.FictionBookReaderService;
 using BookStorage.Services.FileStorageService;
 using BookStorage.Services.FileValidationService;
 
@@ -15,14 +16,16 @@ namespace BookStorage.Services.BookService
         private readonly IFileStorageService _fileStorageService;
         private readonly IFileValidationService _fileValidationService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IFictionBookReaderService _fictionBookReaderService;
 
         public BookService(IBookRepository bookRepository, IUnitOfWork unitOfWork, 
-            IFileStorageService fileStorageService, IFileValidationService fileValidationService)
+            IFileStorageService fileStorageService, IFileValidationService fileValidationService, IFictionBookReaderService fictionBookReaderService)
         {
             _bookRepository = bookRepository;
             _unitOfWork = unitOfWork;
             _fileStorageService = fileStorageService;
             _fileValidationService = fileValidationService;
+            _fictionBookReaderService = fictionBookReaderService;
 
             _bookRepository.Attach(unitOfWork);
         }
@@ -48,6 +51,7 @@ namespace BookStorage.Services.BookService
 
         public async Task<DataEndpointResultDto<GetBookDto>> TryUpsertBookAsync(FormBookViewModel bookViewModel, int currentUserId)
         {
+            await _fictionBookReaderService.ReadDocumentAsync(bookViewModel.BookFile);
             Dictionary<string, string> errors = new Dictionary<string, string>();
 
             //TODO migrate this to validate model attribute

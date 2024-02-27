@@ -8,6 +8,7 @@ using BookStorage.Services.AccountService;
 using BookStorage.Services.BookService;
 using BookStorage.Services.ClaimService;
 using BookStorage.Services.CommentService;
+using BookStorage.Services.FictionBookReaderService;
 using BookStorage.Services.FileValidationService;
 using BookStorage.Services.UserContextService;
 using BookStorage.Services.UserService;
@@ -80,6 +81,7 @@ namespace BookStorage
             builder.Services.AddScoped<IClaimService, ClaimService>();
             builder.Services.AddScoped<IUserContextService, UserContextService>();
             builder.Services.AddScoped<IFileValidationService, FileValidationService>();
+            builder.Services.AddScoped<IFictionBookReaderService, FictionBookReaderService>();
 
             #endregion
 
