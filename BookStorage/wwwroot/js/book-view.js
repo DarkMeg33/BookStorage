@@ -36,6 +36,10 @@ function setupFormValidation() {
     });
 }
 
+function setupChaptersAccordion() {
+    $('#chaptersAccordion').accordion();
+}
+
 $(function () {
     commentApp = new Vue({
         el: '#comment-app',
@@ -49,4 +53,6 @@ $(function () {
         },
         methods: {}
     });
+
+    setupChaptersAccordion();
 });

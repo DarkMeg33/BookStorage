@@ -1,5 +1,7 @@
 ﻿@using BookStorage.Extensions
+@using BookStorage.Models.ViewModels.ChapterViewModel
 @using BookStorage.Models.ViewModels.CommentViewModel
+@using BookStorage.Services.ChapterService
 @using BookStorage.Services.CommentService
 @using BookStorage.Services.UserContextService
 @using Microsoft.AspNetCore.Mvc.TagHelpers
@@ -10,8 +12,10 @@
     ViewData["Title"] = Model.Title;
     IUserContextService userContextService = Context.GetService<IUserContextService>();
     ICommentService commentService = Context.GetService<ICommentService>();
+    IChapterService chapterService = Context.GetService<IChapterService>();
 
     List<CommentViewModel> comments = await commentService.GetCommentViewModelsAsync(Model.BookId!.Value);
+    List<ChapterViewModel> chapters = await chapterService.GetChapterViewModelsAsync(Model.BookId.Value);
 }
 
 
@@ -125,6 +129,27 @@
                         <i class="user icon"></i>
                         22 Friends
                     </a>
+                </div>
+            </div>
+            <div id="chaptersAccordion" class="ui accordion">
+                <div class="ui top attached segment title">
+                    <h4>
+                        <i class="right dropdown icon"></i>
+                        Chapters
+                    </h4>
+                </div>
+                <div class="ui attached segment content">
+                    <div class="ui relaxed divided list">
+                        @foreach (ChapterViewModel chapter in chapters)
+                        {
+                            <div class="item">
+                                <div class="content">
+                                    <h4 class="header">@chapter.Title</h4>
+                                    <div class="description">@chapter.CreatedAt</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>

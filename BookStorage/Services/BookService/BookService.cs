@@ -1,9 +1,13 @@
 ﻿using BookStorage.Models.Dto.BookDto;
 using BookStorage.Models.Dto.EndpointResultDto;
+using BookStorage.Models.Dto.FictionBookDto;
 using BookStorage.Models.Entities.BookEntities;
+using BookStorage.Models.Entities.ChapterEntities;
 using BookStorage.Models.ViewModels.BookViewModel;
 using BookStorage.Repositories.Base;
 using BookStorage.Repositories.BookRepository;
+using BookStorage.Repositories.ChapterRepository;
+using BookStorage.Services.ChapterService;
 using BookStorage.Services.FictionBookReaderService;
 using BookStorage.Services.FileStorageService;
 using BookStorage.Services.FileValidationService;
@@ -17,17 +21,20 @@ namespace BookStorage.Services.BookService
         private readonly IFileValidationService _fileValidationService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFictionBookReaderService _fictionBookReaderService;
+        private readonly IChapterRepository _chapterRepository;
 
         public BookService(IBookRepository bookRepository, IUnitOfWork unitOfWork, 
-            IFileStorageService fileStorageService, IFileValidationService fileValidationService, IFictionBookReaderService fictionBookReaderService)
+            IFileStorageService fileStorageService, IFileValidationService fileValidationService, IFictionBookReaderService fictionBookReaderService, IChapterService chapterService, IChapterRepository chapterRepository)
         {
             _bookRepository = bookRepository;
             _unitOfWork = unitOfWork;
             _fileStorageService = fileStorageService;
             _fileValidationService = fileValidationService;
             _fictionBookReaderService = fictionBookReaderService;
+            _chapterRepository = chapterRepository;
 
             _bookRepository.Attach(unitOfWork);
+            _chapterRepository.Attach(unitOfWork);
         }
 
         #region Book
@@ -51,7 +58,6 @@ namespace BookStorage.Services.BookService
 
         public async Task<DataEndpointResultDto<GetBookDto>> TryUpsertBookAsync(FormBookViewModel bookViewModel, int currentUserId)
         {
-            await _fictionBookReaderService.ReadDocumentAsync(bookViewModel.BookFile);
             Dictionary<string, string> errors = new Dictionary<string, string>();
 
             //TODO migrate this to validate model attribute
@@ -110,6 +116,23 @@ namespace BookStorage.Services.BookService
                     await _fileStorageService.DeleteBookCoverAsync(oldStorageReference);
                 }
 
+                FictionBookDto fictionBook = await _fictionBookReaderService.ReadDocumentAsync(bookViewModel.BookFile);
+
+                if (fictionBook == null)
+                {
+                    _unitOfWork.RollBack();
+                    return new DataEndpointResultDto<GetBookDto>(false, null, errors);
+                }
+
+                bool chaptersInsertResult = 
+                    await InsertChaptersAsync(fictionBook.Chapters, upsertedBook.BookId.Value);
+
+                if (!chaptersInsertResult)
+                {
+                    _unitOfWork.RollBack();
+                    return new DataEndpointResultDto<GetBookDto>(false, null, errors);
+                }
+
                 _unitOfWork.Commit();
                 return new DataEndpointResultDto<GetBookDto>(true, new GetBookDto(upsertedBook), errors);
             }
@@ -120,6 +143,31 @@ namespace BookStorage.Services.BookService
                 return new DataEndpointResultDto<GetBookDto>(false, null, errors);
             }
         }
+
+        #region TryUpsertBookAsyncPrivate
+
+        private async Task<bool> InsertChaptersAsync(List<FictionBookChapterDto> chapters, int bookId)
+        {
+            foreach (FictionBookChapterDto chapter in chapters)
+            {
+                bool result = await _chapterRepository.InsertChapterAsync(new SaveChapterEntity()
+                {
+                    ChapterId = null,
+                    BookId = bookId,
+                    Title = chapter.Title,
+                    Content = chapter.Content
+                });
+
+                if (!result)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        #endregion
 
         #endregion
     }
