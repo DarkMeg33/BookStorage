@@ -4,14 +4,16 @@ namespace BookStorage.Repositories.Base
 {
     public class BaseRepository : UnitOfWorkRepository
     {
-        public async Task<T> GetAsync<T>(string procedureName, object paramObj = null) where T : class
+        public async Task<T> GetAsync<T>(string procedureName, object paramObj = null, 
+            int? commandTimeout = null) where T : class
         {
             try
             {
                 return (await _unitOfWork.GetAsync<T>(
                     procedureName,
                     parameter: paramObj,
-                    commandType: CommandType.StoredProcedure));
+                    commandType: CommandType.StoredProcedure,
+                    commandTimeout: commandTimeout));
             }
             catch (Exception e)
             {
@@ -20,14 +22,16 @@ namespace BookStorage.Repositories.Base
             }
         }
 
-        public async Task<List<T>> GetAllAsync<T>(string procedureName, object paramObj = null) where T : class
+        public async Task<List<T>> GetAllAsync<T>(string procedureName, object paramObj = null, 
+            int? commandTimeout = null) where T : class
         {
             try
             {
                 return (await _unitOfWork.GetAllAsync<T>(
                         procedureName, 
                         parameter: paramObj, 
-                        commandType: CommandType.StoredProcedure))
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: commandTimeout))
                     .ToList();
             }
             catch (Exception e)
@@ -37,13 +41,14 @@ namespace BookStorage.Repositories.Base
             }
         }
 
-        public async Task<bool> ExecuteAsync(string procedureName, object paramObj = null)
+        public async Task<bool> ExecuteAsync(string procedureName, object paramObj = null, int? commandTimeout = null)
         {
             try
             {
                 return await _unitOfWork.ExecuteNonQueryStoredProcedureAsync(
                     procedureName,
-                    parameter: paramObj);
+                    parameter: paramObj,
+                    commandTimeout: commandTimeout);
             }
             catch (Exception e)
             {

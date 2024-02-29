@@ -77,20 +77,21 @@ namespace BookStorage.Repositories.Base
         }
 
         public async Task<T> GetAsync<T>(string query, object parameter = null,
-            CommandType commandType = CommandType.StoredProcedure)
+            CommandType commandType = CommandType.StoredProcedure, int? commandTimeout = null)
         {
-            return await Connection.GetAsync<T>(query, parameter, commandType, Transaction);
+            return await Connection.GetAsync<T>(query, parameter, commandType, Transaction, commandTimeout);
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>(string query, object parameter = null, 
-            CommandType commandType = CommandType.StoredProcedure)
+            CommandType commandType = CommandType.StoredProcedure, int? commandTimeout = null)
         {
-            return await Connection.GetAllAsync<T>(query, parameter, commandType, Transaction);
+            return await Connection.GetAllAsync<T>(query, parameter, commandType, Transaction, commandTimeout);
         }
 
-        public async Task<bool> ExecuteNonQueryStoredProcedureAsync(string query, object parameter = null)
+        public async Task<bool> ExecuteNonQueryStoredProcedureAsync(string query, object parameter = null, 
+            int? commandTimeout = null)
         {
-            return await Connection.ExecuteNonQueryStoredProcedureAsync(query, parameter, Transaction);
+            return await Connection.ExecuteNonQueryStoredProcedureAsync(query, parameter, Transaction, commandTimeout);
         }
 
         public void Dispose()
