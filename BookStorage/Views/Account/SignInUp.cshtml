@@ -1,8 +1,9 @@
-﻿@section Styles
+﻿@using BookStorage.Extensions
+@section Styles
 {
     <link rel="stylesheet" href="~/css/sign-in-up.css" />
-    <link rel="stylesheet" href="~/css/hide-footer.css" />
-    <link rel="stylesheet" href="~/css/hide-header.css" />
+    @Html.HideHeader()
+    @Html.HideFooter()
 }
 
 @section Scripts

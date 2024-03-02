@@ -8,6 +8,16 @@ namespace BookStorage.Extensions
 {
     public static class HtmlHelperExtensions
     {
+        public static IHtmlContent HideHeader(this IHtmlHelper helper)
+        {
+            return new HtmlString("<link rel=\"stylesheet\" href=\"/css/hide-header.css\" />");
+        }
+
+        public static IHtmlContent HideFooter(this IHtmlHelper helper)
+        {
+            return new HtmlString("<link rel=\"stylesheet\" href=\"/css/hide-footer.css\" />");
+        }
+
         public static async Task<IHtmlContent> WrapWithScriptTag(IHtmlContent html)
         {
             TagBuilder tagBuilder = new TagBuilder("script");
