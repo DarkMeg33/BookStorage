@@ -1,6 +1,7 @@
 ﻿using BookStorage.Models.ViewModels.CommentViewModel;
 using BookStorage.Services.CommentService;
 using BookStorage.Services.UserContextService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStorage.Controllers
@@ -23,6 +24,7 @@ namespace BookStorage.Controllers
         }
 
         [HttpPost("/book/{bookId}/comment")]
+        [Authorize]
         public async Task<IActionResult> UpsertCommentAsync(FormCommentViewModel commentViewModel, int bookId)
         {
             return DynamicResultResponse(

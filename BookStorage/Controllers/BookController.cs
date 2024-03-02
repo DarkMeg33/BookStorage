@@ -1,6 +1,7 @@
 ﻿using BookStorage.Models.ViewModels.BookViewModel;
 using BookStorage.Services.BookService;
 using BookStorage.Services.UserContextService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStorage.Controllers
@@ -28,17 +29,19 @@ namespace BookStorage.Controllers
         {
             BookViewModel book = await _bookService.GetBookViewModelAsync(bookId);
 
-            return View("BookView", book);
+            return book == null ? NotFound() : View("BookView", book);
         }
 
         [HttpGet("/book")]
         [ApiExplorerSettings(IgnoreApi = true)]
+        [Authorize]
         public async Task<IActionResult> CreateBook()
         {
             return View("Book");
         }
 
         [HttpPost("/book")]
+        [Authorize]
         public async Task<IActionResult> UpsertBook(FormBookViewModel viewModel)
         {
             return DynamicResultResponse(await _bookService.TryUpsertBookAsync(viewModel,
