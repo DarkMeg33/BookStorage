@@ -14,8 +14,9 @@
 @section Scripts
 {
     <script src="~/js/book.js"></script>
-    <script src="https://cdn.tiny.cloud/1/3ef7juk0t51uoo5ksogvvjj8yy2z56maoz1ghjk9nm4aq492/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     
+    @Html.AddTinymce(appSettings.TinymceApiKey)
+
     @await Html.SetClientSideJavascriptVariableAsync("bookCoverMaxSizeInMb", appSettings.FileValidationSettings.BookCoverImage.MaxAttachmentSizeInMb)
     @await Html.SetClientSideJavascriptVariableAsync("bookFileMaxSizeInMb", appSettings.FileValidationSettings.BookFile.MaxAttachmentSizeInMb)
 }

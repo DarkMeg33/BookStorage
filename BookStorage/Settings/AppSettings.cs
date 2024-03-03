@@ -57,6 +57,7 @@ namespace BookStorage.Settings
     {
         [JsonProperty("ConnectionStrings")] public ConnectionStrings ConnectionStrings { get; set; }
         [JsonProperty("WebsiteName")] public string WebsiteName { get; set; }
+        [JsonProperty("TinymceApiKey")] public string TinymceApiKey { get; set; }
         [JsonProperty("CookieSettings")] public CookieSettings CookieSettings { get; set; }
         [JsonProperty("AzureBlobStorage")] public AzureBlobStorage AzureBlobStorage { get; set; }
         [JsonProperty("FileValidationSettings")] public FileValidationSettings FileValidationSettings { get; set; }

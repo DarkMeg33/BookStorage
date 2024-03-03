@@ -4,6 +4,7 @@
 @using BookStorage.Services.ChapterService
 @using BookStorage.Services.CommentService
 @using BookStorage.Services.UserContextService
+@using BookStorage.Settings
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 
 @model BookStorage.Models.ViewModels.BookViewModel.BookViewModel
@@ -13,6 +14,7 @@
     IUserContextService userContextService = Context.GetService<IUserContextService>();
     ICommentService commentService = Context.GetService<ICommentService>();
     IChapterService chapterService = Context.GetService<IChapterService>();
+    AppSettings appSettings = Context.GetService<AppSettings>();
 
     List<CommentViewModel> comments = await commentService.GetCommentViewModelsAsync(Model.BookId!.Value);
     List<ChapterViewModel> chapters = await chapterService.GetChapterViewModelsAsync(Model.BookId.Value);
@@ -27,7 +29,8 @@
 @section Scripts
 {
     <script src="~/js/book-view.js"></script>
-    <script src="https://cdn.tiny.cloud/1/3ef7juk0t51uoo5ksogvvjj8yy2z56maoz1ghjk9nm4aq492/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+    @Html.AddTinymce(appSettings.TinymceApiKey)
 
     @await Html.SetClientSideJavascriptVariableAsync("bookId",  Model.BookId)
     @await Html.SetClientSideJavascriptVariableAsync("comments",  comments)

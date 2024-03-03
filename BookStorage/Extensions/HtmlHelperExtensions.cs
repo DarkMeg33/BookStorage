@@ -18,6 +18,11 @@ namespace BookStorage.Extensions
             return new HtmlString("<link rel=\"stylesheet\" href=\"/css/hide-footer.css\" />");
         }
 
+        public static IHtmlContent AddTinymce(this IHtmlHelper helper, string apiKey)
+        {
+            return new HtmlString($"<script src=\"https://cdn.tiny.cloud/1/{apiKey}/tinymce/6/tinymce.min.js\" referrerpolicy=\"origin\"></script>");
+        }
+
         public static async Task<IHtmlContent> WrapWithScriptTag(IHtmlContent html)
         {
             TagBuilder tagBuilder = new TagBuilder("script");
