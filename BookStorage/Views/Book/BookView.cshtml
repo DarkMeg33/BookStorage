@@ -30,6 +30,7 @@
 
     @await Html.SetClientSideJavascriptVariableAsync("bookId",  Model.BookId)
     @await Html.SetClientSideJavascriptVariableAsync("comments",  comments)
+    @await Html.SetClientSideJavascriptVariableAsync("chapters",  chapters)
 }
 
 <div class="ui main container">
@@ -131,7 +132,7 @@
                     </a>
                 </div>
             </div>
-            <div id="chaptersAccordion" class="ui accordion">
+            <div id="chapter-app" class="ui accordion">
                 <div class="ui top attached segment title">
                     <h4>
                         <i class="right dropdown icon"></i>
@@ -140,15 +141,12 @@
                 </div>
                 <div class="ui attached segment content">
                     <div class="ui relaxed divided list">
-                        @foreach (ChapterViewModel chapter in chapters)
-                        {
-                            <div class="item">
-                                <div class="content">
-                                    <h4 class="header">@chapter.Title</h4>
-                                    <div class="description">@chapter.CreatedAt</div>
-                                </div>
+                        <div class="item" v-for="chapter in chapters" 
+                             @@click="goToChapterView(@Model.BookId.Value, chapter.chapterId)">
+                            <div class="content">
+                                <h4 class="header">{{ chapter.title }}</h4>
                             </div>
-                        }
+                        </div>
                     </div>
                 </div>
             </div>

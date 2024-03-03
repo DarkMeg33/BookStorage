@@ -1,0 +1,92 @@
+﻿@using BookStorage.Models.Dto.ChapterDto
+@using BookStorage.Extensions
+@using BookStorage.Models.ViewModels.ChapterViewModel
+@using BookStorage.Services.ChapterService
+
+@model ChapterDto
+
+@{
+    ChapterDto chapter = Model;
+    ViewData["Title"] = chapter.Title;
+
+    IChapterService chapterService = Context.GetService<IChapterService>();
+
+    List<ChapterViewModel> chapterViewModels = await chapterService.GetChapterViewModelsAsync(chapter.BookId);
+
+    bool isFirstChapter = chapterViewModels.First().ChapterId == chapter.ChapterId;
+    bool isLastChapter = chapterViewModels.Last().ChapterId == chapter.ChapterId;
+
+    int currentChapterIndex = chapterViewModels.FindIndex(x => x.ChapterId == chapter.ChapterId);
+    
+    int previousChapterId = currentChapterIndex == 0 
+        ? 0 : chapterViewModels[currentChapterIndex - 1].ChapterId;
+    int nextChapterId = currentChapterIndex + 1 == chapterViewModels.Count 
+        ? 0 : chapterViewModels[currentChapterIndex + 1].ChapterId;
+}
+
+@section Scripts
+{
+    <script src="~/js/chapter-view.js"></script>
+}
+
+@section Styles 
+{
+    @Html.HideHeader()
+    <link rel="stylesheet" href="~/css/chapter-view.css" />
+
+    @await Html.SetClientSideJavascriptVariableAsync("isFirstChapter",  isFirstChapter)
+    @await Html.SetClientSideJavascriptVariableAsync("isLastChapter",  isLastChapter)
+}
+
+<header id="chapter-header">
+    <div class="ui fixed inverted menu">
+        <div class="ui container">
+            <a href="/book/@chapter.BookId/view" class="ui button item m-zero">
+                <i class="arrow left icon m-zero" style="visibility: visible;"></i>
+            </a>
+            <div id="chapters-nav-dropdown" class="ui simple dropdown item">
+                Chapters
+                <i class="dropdown icon"></i>
+                <div class="scrollhint menu">
+                    @foreach (ChapterViewModel chapterViewModel in chapterViewModels)
+                    {
+                        <a href="/book/@chapter.BookId/chapter/@chapterViewModel.ChapterId/view"
+                           class="item">@chapterViewModel.Title</a>
+                        <div class="ui divider m-zero"></div>
+                    }
+                </div>
+            </div>
+            <div class="right menu">
+                <a class="ui black button item">
+                    <i class="cog large icon m-zero" style="visibility: visible;"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="ui main text container">
+    <div class="ui black stacked segment">
+        <h1 class="ui header center aligned">@chapter.Title</h1>
+    </div>
+    <div class="ui segment">
+        @Html.Raw(chapter.Content)
+    </div>
+    <div id="nav-btns-app" class="ui segment">
+        <div class="actions-container">
+            <div class="actions spaced">
+                <button class="ui labeled icon black button" 
+                        :class="{ disabled: isFirstChapter }"
+                        @@click="goToChapter(@chapter.BookId, @previousChapterId)">
+                    <i class="left arrow spinner icon"></i>
+                    Back
+                </button>
+                <button class="ui right labeled icon black button" 
+                        :class="{ disabled: isLastChapter }"
+                        @@click="goToChapter(@chapter.BookId, @nextChapterId)">
+                    <i class="right arrow icon"></i>
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 ﻿let commentApp;
+let chapterApp;
 
 function bindForms() {
     bindFormSubmit({
@@ -37,7 +38,7 @@ function setupFormValidation() {
 }
 
 function setupChaptersAccordion() {
-    $('#chaptersAccordion').accordion();
+    $('#chapter-app').accordion();
 }
 
 $(function () {
@@ -54,5 +55,19 @@ $(function () {
         methods: {}
     });
 
-    setupChaptersAccordion();
+    chapterApp = new Vue({
+        el: '#chapter-app',
+        data: {
+            chapters: _get('chapters')
+        },
+        mounted: function () {
+            setupChaptersAccordion();
+        },
+        methods: {
+            goToChapterView: function(bookId, chapterId) {
+                goTo(`/book/${bookId}/chapter/${chapterId}/view`);
+            }
+        }
+    });
+
 });
