@@ -30,6 +30,10 @@ function bindForms() {
             }
 
             return formData;
+        },
+        beforeFormValidationFn: () => {
+            let tinymceContent = tinymce.activeEditor.getContent();
+            $('#annotation').val(tinymceContent);
         }
     });
 }
@@ -98,6 +102,10 @@ function registerBookFileFilepond() {
 }
 
 $(function () {
+    tinymce.init({
+        selector: 'textarea#annotation'
+    });
+
     bindForms();
     setupFormValidation();
     registerBookCoverFilepond();

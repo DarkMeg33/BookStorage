@@ -9,6 +9,7 @@ class FormCfg {
     successMessage;
     errorMessage;
     formDataBeforeSubmitFn;
+    beforeFormValidationFn;
 }
 
 function setBtnLoading(id) {
@@ -52,6 +53,10 @@ function handleFormSubmit(cfg) {
     }
 
     let form = $(toId(cfg.formId));
+
+    if (!!cfg.beforeFormValidationFn) {
+        cfg.beforeFormValidationFn();
+    }
 
     let isFormValid = form.form('is valid');
 

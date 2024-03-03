@@ -11,6 +11,10 @@ function bindForms() {
         urlFn: () => {
             return `/book/${commentApp.bookId}/comment`;
         },
+        beforeFormValidationFn: () => {
+            let tinymceContent = tinymce.activeEditor.getContent();
+            $('#comment-editor').val(tinymceContent);
+        },
         onSuccessFn: (response) => {
             if (response.data) {
                 commentApp.comments.unshift(response.data);
@@ -42,6 +46,10 @@ function setupChaptersAccordion() {
 }
 
 $(function () {
+    tinymce.init({
+        selector: 'textarea#comment-editor'
+    });
+
     commentApp = new Vue({
         el: '#comment-app',
         data: {

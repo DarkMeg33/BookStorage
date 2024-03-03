@@ -27,6 +27,7 @@
 @section Scripts
 {
     <script src="~/js/book-view.js"></script>
+    <script src="https://cdn.tiny.cloud/1/3ef7juk0t51uoo5ksogvvjj8yy2z56maoz1ghjk9nm4aq492/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
     @await Html.SetClientSideJavascriptVariableAsync("bookId",  Model.BookId)
     @await Html.SetClientSideJavascriptVariableAsync("comments",  comments)
@@ -55,7 +56,7 @@
                         <div class="ui black stacked segment">
                             <div>
                                 <span class="ui text">
-                                    @Model.Description
+                                    @Html.Raw(Model.Description)
                                 </span>
                             </div>
                         </div>
@@ -68,7 +69,7 @@
                 {
                     <form class="ui reply form" id="comment-form" onsubmit="return false">
                         <div class="field">
-                            <textarea name="text" placeholder="Write a message..."></textarea>
+                            <textarea id="comment-editor" name="text" placeholder="Write a message..."></textarea>
                         </div>
                         <div id="comment-btn" 
                              class="ui blue labeled submit icon button">
@@ -97,7 +98,7 @@
                                         <span class="date">{{ comment.createdAt }}</span>
                                     </div>
                                     <div class="text">
-                                        {{ comment.text }}
+                                        <div v-html="comment.text"></div>
                                     </div>
                                 </div>
                             </div>

@@ -14,6 +14,7 @@
 @section Scripts
 {
     <script src="~/js/book.js"></script>
+    <script src="https://cdn.tiny.cloud/1/3ef7juk0t51uoo5ksogvvjj8yy2z56maoz1ghjk9nm4aq492/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     
     @await Html.SetClientSideJavascriptVariableAsync("bookCoverMaxSizeInMb", appSettings.FileValidationSettings.BookCoverImage.MaxAttachmentSizeInMb)
     @await Html.SetClientSideJavascriptVariableAsync("bookFileMaxSizeInMb", appSettings.FileValidationSettings.BookFile.MaxAttachmentSizeInMb)
@@ -45,10 +46,11 @@
                                 <input type="text" name="title" placeholder="Title"/>
                             </div>
                         </div>
+                        
                         <div class="field">
                             <label>Annotation</label>
-                            <div class="ui input">
-                                <textarea type="text" name="description" placeholder="Annotation"></textarea>
+                            <div>
+                                <textarea id="annotation" type="text" name="description" placeholder="Annotation"></textarea>
                             </div>
                         </div>
                         <div class="field">
