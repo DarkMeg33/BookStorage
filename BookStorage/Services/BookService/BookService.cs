@@ -1,4 +1,5 @@
-﻿using BookStorage.Models.Dto.BookDto;
+﻿using BookStorage.Helpers.Mapping;
+using BookStorage.Models.Dto.BookDto;
 using BookStorage.Models.Dto.EndpointResultDto;
 using BookStorage.Models.Dto.FictionBookDto;
 using BookStorage.Models.Entities.BookEntities;
@@ -11,6 +12,7 @@ using BookStorage.Services.ChapterService;
 using BookStorage.Services.FictionBookReaderService;
 using BookStorage.Services.FileStorageService;
 using BookStorage.Services.FileValidationService;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookStorage.Services.BookService
 {
@@ -49,6 +51,19 @@ namespace BookStorage.Services.BookService
         public async Task<GetBookDto> GetBookDtoAsync(int bookId)
         {
             return new GetBookDto(await _bookRepository.GetBookAsync(bookId));
+        }
+
+        public async Task<FileResult> GetBookCoverFileAsync(string storageReference)
+        {
+            Stream bookCoverStream = 
+                await _fileStorageService.GetBookCoverAsync(storageReference);
+
+            if (bookCoverStream == null)
+            {
+                return null;
+            }
+            
+            return new FileStreamResult(bookCoverStream, MimeMapping.GetMimeType(storageReference));
         }
 
         public async Task<BookViewModel> GetBookViewModelAsync(int bookId)

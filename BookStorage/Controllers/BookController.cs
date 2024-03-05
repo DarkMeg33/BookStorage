@@ -32,6 +32,12 @@ namespace BookStorage.Controllers
             return book == null ? NotFound() : View("BookView", book);
         }
 
+        [HttpGet("/book-cover/{storageReference}")]
+        public async Task<IActionResult> GetBookCoverAsync(string storageReference)
+        {
+            return await _bookService.GetBookCoverFileAsync(storageReference);
+        }
+
         [HttpGet("/book")]
         [ApiExplorerSettings(IgnoreApi = true)]
         [Authorize]

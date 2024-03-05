@@ -1,4 +1,5 @@
 ﻿@using BookStorage.Extensions
+@using BookStorage.Helpers.Constants
 @using BookStorage.Models.ViewModels.ChapterViewModel
 @using BookStorage.Models.ViewModels.CommentViewModel
 @using BookStorage.Services.ChapterService
@@ -44,7 +45,7 @@
                 <div class="ui grid">
                     <div class="six wide column">
                         <div class="ui fluid rounded image">
-                            <img src="/images/book/book-img.jpg" alt="" />
+                            <img src="@Model.CoverUrl" alt="cover" />
                         </div>
                         <a href="/book/@Model.BookId/chapter/@chapters.First().ChapterId/view" 
                            class="ui fluid positive button m-top-15">Read</a>

@@ -18,5 +18,15 @@
         {
             return $"{firstname}{separator}{lastname}";
         }
+
+        public static string ToBookCoverUrl(string storageReference)
+        {
+            if (string.IsNullOrWhiteSpace(storageReference))
+            {
+                return Constants.Constants.DefaultCoverUrl;
+            }
+
+            return $"/book-cover/{storageReference}";
+        }
     }
 }
