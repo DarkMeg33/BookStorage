@@ -1,6 +1,14 @@
 ﻿.main {
-    margin-top: 70px !important;
-    margin-bottom: 20px;
+    margin-top: calc(var(--header-height) + 20px) !important;
+    margin-bottom: 20px !important;
+}
+
+#site-header {
+    height: var(--header-height) !important;
+}
+
+#site-footer {
+    height: var(--footer-height) !important;
 }
 
 body {
