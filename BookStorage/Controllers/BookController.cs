@@ -41,14 +41,14 @@ namespace BookStorage.Controllers
         [HttpGet("/book")]
         [ApiExplorerSettings(IgnoreApi = true)]
         [Authorize]
-        public async Task<IActionResult> CreateBook()
+        public async Task<IActionResult> Book()
         {
             return View("Book");
         }
 
         [HttpPost("/book")]
         [Authorize]
-        public async Task<IActionResult> UpsertBook(FormBookViewModel viewModel)
+        public async Task<IActionResult> SaveBook(FormBookViewModel viewModel)
         {
             return DynamicResultResponse(await _bookService.TryUpsertBookAsync(viewModel,
                 await _userContextService.GetUserIdAsync()));
