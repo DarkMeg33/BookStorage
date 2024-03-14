@@ -1,0 +1,74 @@
+﻿
+@using BookStorage.Extensions
+@model BookStorage.Models.ViewModels.UserViewModel.UserProfileViewModel
+
+@{
+    ViewData["Title"] = $"User Profile";
+}
+
+@section Scripts{
+    <script src="~/js/user-profile.js"></script>
+    
+    @await Html.SetClientSideJavascriptVariableAsync("userProfile", Model)
+}
+
+@section Styles{
+}
+
+<div id="user-profile-app" class="ui container main">
+    <form class="ui large form" id="user-profile-form" onsubmit="return false">
+        <div class="ui top attached fitted segment">
+            <div class="ui secondary menu">
+                <div class="item">
+                    <h3 class="ui header">User Profile</h3>
+                </div>
+                <div class="right item">
+                    <div v-if="isEditMode"
+                         class="ui small secondary submit button"
+                         id="save-user-profile-btn">
+                        Save
+                    </div>
+                    <div v-else
+                         @@click="turnIntoEditMode"
+                         class="ui small secondary submit button"
+                         id="edit-user-profile-btn">
+                        Edit
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui bottom attached segment">
+            <div class="ui grid">
+                <div class="five wide column">
+                    <div class="ui segment full-height">
+
+                    </div>
+                </div>
+                <div class="eleven wide column">
+                    <div class="ui segment">
+                        <div class="field">
+                            <label>Username</label>
+                            <input :disabled="!isEditMode" id="username"
+                                   type="text" name="username" placeholder="Username">
+                        </div>
+                        <div class="field">
+                            <label>Email</label>
+                            <input :disabled="!isEditMode" id="email"
+                                   type="email" name="email" placeholder="Email">
+                        </div>
+                        <div :hidden="!isEditMode" class="field">
+                            <label>Password</label>
+                            <input :disabled="!isEditMode" id="password"
+                                    type="password" name="password" placeholder="Password">
+                        </div> 
+                        <div :hidden="!isEditMode" class="field">
+                            <label>Confirm password</label>
+                            <input :disabled="!isEditMode" id="confirm-password"
+                                   type="password" name="confirmPassword" placeholder="Confirm password">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
