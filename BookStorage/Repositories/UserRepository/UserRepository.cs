@@ -20,9 +20,9 @@ namespace BookStorage.Repositories.UserRepository
             return await GetAsync<string>("UserPassword_Select", new { email });
         }
 
-        public async Task<UserEntity> UpdateUserAsync(UserEntity entity)
+        public async Task<UserEntity> UpdateUserProfileAsync(SaveUserProfileEntity entity)
         {
-            throw new NotImplementedException();
+            return await GetAsync<UserEntity>("UserProfile_Update", entity);
         }
     }
 }

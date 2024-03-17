@@ -1,4 +1,5 @@
-﻿using BookStorage.Models.Dto.UserDto;
+﻿using BookStorage.Models.Dto.EndpointResultDto;
+using BookStorage.Models.Dto.UserDto;
 using BookStorage.Models.ViewModels.UserViewModel;
 using BookStorage.Services.UserContextService;
 
@@ -9,6 +10,7 @@ namespace BookStorage.Services.UserService
         Task<UserDto> GetUserDtoAsync(int id);
         Task<UserDto> GetUserDtoAsync(string email);
         Task<UserDto> GetUserDtoByUsernameAsync(string username);
-        Task<UserProfileViewModel> GetUserProfileViewModel();
+        Task<UserProfileViewModel> GetUserProfileViewModelAsync();
+        Task<DataEndpointResultDto<UserDto>> UpsertUserProfileAsync(FormUserProfileViewModel viewModel);
     }
 }

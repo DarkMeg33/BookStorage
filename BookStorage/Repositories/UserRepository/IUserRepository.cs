@@ -8,6 +8,6 @@ namespace BookStorage.Repositories.UserRepository
         Task<UserEntity> GetUserAsync(int id);
         Task<UserEntity> GetUserAsync(string email);
         Task<string> GetUserPasswordAsync(string email);
-        Task<UserEntity> UpdateUserAsync(UserEntity entity);
+        Task<UserEntity> UpdateUserProfileAsync(SaveUserProfileEntity entity);
     }
 }

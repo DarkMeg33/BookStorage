@@ -1,4 +1,5 @@
-﻿using BookStorage.Models.Dto.UserDto;
+﻿using BookStorage.Models.Dto.EndpointResultDto;
+using BookStorage.Models.Dto.UserDto;
 using BookStorage.Models.Entities.UserEntities;
 using BookStorage.Models.ViewModels.UserViewModel;
 using BookStorage.Repositories.Base;
@@ -34,12 +35,48 @@ namespace BookStorage.Services.UserService
             throw new NotImplementedException();
         }
 
-        public async Task<UserProfileViewModel> GetUserProfileViewModel()
+        public async Task<UserProfileViewModel> GetUserProfileViewModelAsync()
         {
             int userId = await GetUserIdAsync();
             UserEntity user = await _userRepository.GetUserAsync(userId);
 
             return new UserProfileViewModel(user);
+        }
+
+        public async Task<DataEndpointResultDto<UserDto>> UpsertUserProfileAsync(FormUserProfileViewModel viewModel)
+        {
+            Dictionary<string, string> errors = new();
+
+            try
+            {
+                int userId = await GetUserIdAsync();
+
+                UserEntity existedUser = await _userRepository.GetUserAsync(userId);
+
+                if (existedUser == null)
+                {
+                    errors.Add(nameof(existedUser), "Such user doesn't exist");
+                    return new DataEndpointResultDto<UserDto>(false, null, errors);
+                }
+
+                string oldPassword = await _userRepository.GetUserPasswordAsync(existedUser.Email);
+
+                UserEntity updatedUser = 
+                    await _userRepository.UpdateUserProfileAsync(
+                        new SaveUserProfileEntity(viewModel, existedUser, oldPassword));
+
+                if (updatedUser == null)
+                {
+                    return new DataEndpointResultDto<UserDto>(false, null, errors);
+                }
+
+                return new DataEndpointResultDto<UserDto>(true, new UserDto(updatedUser), errors);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new DataEndpointResultDto<UserDto>(false, null, errors);
+            }
         }
     }
 }

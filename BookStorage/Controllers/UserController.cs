@@ -19,8 +19,15 @@ namespace BookStorage.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> UserProfileView()
         {
-            UserProfileViewModel user = await _userService.GetUserProfileViewModel();
+            UserProfileViewModel user = await _userService.GetUserProfileViewModelAsync();
             return user == null ? NotFound() : View(user);
+        }
+
+        [Authorize]
+        [HttpPost("/user/profile")]
+        public async Task<IActionResult> SaveUserProfile(FormUserProfileViewModel viewModel)
+        {
+            return DynamicResultResponse(await _userService.UpsertUserProfileAsync(viewModel));
         }
     }
 }

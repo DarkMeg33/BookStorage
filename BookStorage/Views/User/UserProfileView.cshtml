@@ -23,12 +23,12 @@
                     <h3 class="ui header">User Profile</h3>
                 </div>
                 <div class="right item">
-                    <div v-if="isEditMode"
+                    <div v-show="isEditMode"
                          class="ui small secondary submit button"
                          id="save-user-profile-btn">
                         Save
                     </div>
-                    <div v-else
+                    <div v-show="!isEditMode"
                          @@click="turnIntoEditMode"
                          class="ui small secondary submit button"
                          id="edit-user-profile-btn">
@@ -49,11 +49,13 @@
                         <div class="field">
                             <label>Username</label>
                             <input :disabled="!isEditMode" id="username"
+                                   :value="userProfile.username"
                                    type="text" name="username" placeholder="Username">
                         </div>
                         <div class="field">
                             <label>Email</label>
                             <input :disabled="!isEditMode" id="email"
+                                   :value="userProfile.email"
                                    type="email" name="email" placeholder="Email">
                         </div>
                         <div :hidden="!isEditMode" class="field">

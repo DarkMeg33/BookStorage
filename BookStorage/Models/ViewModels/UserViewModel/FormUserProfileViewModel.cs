@@ -7,6 +7,8 @@ namespace BookStorage.Models.ViewModels.UserViewModel
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
 
+        public FormUserProfileViewModel() { }
+
         public FormUserProfileViewModel(UserEntity entity) : base(entity)
         {
         }
