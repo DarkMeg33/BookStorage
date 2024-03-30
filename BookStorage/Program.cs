@@ -6,6 +6,7 @@ using BookStorage.Repositories.ChapterRepository;
 using BookStorage.Repositories.CommentRepository;
 using BookStorage.Repositories.UserRepository;
 using BookStorage.Services.AccountService;
+using BookStorage.Services.AdminService;
 using BookStorage.Services.BookService;
 using BookStorage.Services.ChapterService;
 using BookStorage.Services.ClaimService;
@@ -86,6 +87,7 @@ namespace BookStorage
             builder.Services.AddScoped<IFileValidationService, FileValidationService>();
             builder.Services.AddScoped<IFictionBookReaderService, FictionBookReaderService>();
             builder.Services.AddScoped<IChapterService, ChapterService>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
 
             #endregion
 
