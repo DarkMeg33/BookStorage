@@ -1,5 +1,6 @@
 ﻿.main {
     margin-top: calc(var(--header-height) + 20px) !important;
+    min-height: calc(100% - var(--header-height) - var(--footer-height) - 40px) !important;
     margin-bottom: 20px !important;
 }
 
