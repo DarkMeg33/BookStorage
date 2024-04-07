@@ -39,3 +39,25 @@ BEGIN
 	ORDER BY CreatedAt desc
 END
 GO
+
+ALTER PROCEDURE [dbo].[Book_Select] @bookId int = null, @title nvarchar(255) = null
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT 
+		b.BookId,
+		b.Title,
+		b.Description,
+		b.AuthorId,
+		b.CreatedAt,
+		b.CoverStorageReference,
+		u.Username as AuthorName,
+		u.AvatarStorageReference as AuthorAvatarStorageReference
+	FROM Book b
+		JOIN dbo.[User] u on u.UserId = b.AuthorId
+	WHERE (BookId = @bookId OR @bookId is null) and
+		(Title = @title OR @title is null)
+	ORDER BY Title
+END
+GO

@@ -10,6 +10,7 @@ namespace BookStorage.Models.ViewModels.BookViewModel
         public string Description { get; set; }
         public int AuthorId { get; set; }
         public string AuthorName { get; set; }
+        public string AuthorAvatarUrl { get; set; }
         public string CoverUrl { get; }
 
         public BookViewModel(RetrieveBookEntity entity)
@@ -20,6 +21,7 @@ namespace BookStorage.Models.ViewModels.BookViewModel
             AuthorId = entity.AuthorId;
             AuthorName = entity.AuthorName;
             CoverUrl = StringFormatter.ToBookCoverUrl(entity.CoverStorageReference);
+            AuthorAvatarUrl = StringFormatter.ToAvatarUrl(entity.AuthorAvatarStorageReference);
         }
     }
 }
