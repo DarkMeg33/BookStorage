@@ -1,7 +1,10 @@
-﻿using BookStorage.Models.Dto.EndpointResultDto;
+﻿using System.Threading.Tasks;
+using BookStorage.Models.Dto.EndpointResultDto;
 using BookStorage.Models.Dto.UserDto;
 using BookStorage.Models.ViewModels.UserViewModel;
 using BookStorage.Services.UserContextService;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookStorage.Services.UserService
 {
@@ -12,5 +15,9 @@ namespace BookStorage.Services.UserService
         Task<UserDto> GetUserDtoByUsernameAsync(string username);
         Task<UserProfileViewModel> GetUserProfileViewModelAsync();
         Task<DataEndpointResultDto<UserDto>> UpsertUserProfileAsync(FormUserProfileViewModel viewModel);
+        Task<FileResult> GetUserAvatarFileAsync(string storageReference);
+        Task<string> GetCurrentUserAvatarUrlAsync();
+        Task<string> GetUserAvatarUrlAsync(int userId);
+        Task<EndpointResultDto> UpdateUserAvatarAsync(IFormFile avatar);
     }
 }

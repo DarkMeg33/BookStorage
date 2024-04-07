@@ -1,4 +1,5 @@
 ﻿let userProfileApp;
+let avatarFilepond;
 
 function bindForms() {
     bindFormSubmit({
@@ -23,6 +24,59 @@ function bindForms() {
     });
 }
 
+function setupAvatarFilepond() {
+    FilePond.registerPlugin(
+        FilePondPluginFileValidateType,
+        FilePondPluginImageExifOrientation,
+        FilePondPluginImagePreview,
+        FilePondPluginImageCrop,
+        FilePondPluginImageResize,
+        FilePondPluginImageTransform,
+        FilePondPluginImageEdit
+    );
+
+    avatarFilepond = FilePond.create(
+        document.getElementById('avatar-filepond'),
+        {
+            labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
+            imagePreviewHeight: 170,
+            imageCropAspectRatio: '1:1',
+            imageResizeTargetWidth: 200,
+            imageResizeTargetHeight: 200,
+            stylePanelLayout: 'compact circle',
+            styleLoadIndicatorPosition: 'center bottom',
+            styleProgressIndicatorPosition: 'right bottom',
+            styleButtonRemoveItemPosition: 'left bottom',
+            styleButtonProcessItemPosition: 'right bottom',
+        }
+    );
+
+    avatarFilepond.addFile(userProfileApp.userProfile.avatarUrl)
+        .then(() => {
+
+        })
+        .catch(() => {
+
+        })
+        .finally(() => {
+            avatarFilepond.onaddfile = function () {
+                let file = avatarFilepond.getFiles()[0].file;
+                if (!!file) {
+                    let formData = new FormData();
+                    formData.append('files[0]', file);
+                    axios
+                        .post('/user/avatar', formData)
+                        .then((response) => {
+                            showSuccess('Avatar updated successfully');
+                        })
+                        .catch((error) => {
+
+                        });
+                }
+            }
+        });
+}
+
 $(function () {
     userProfileApp = new Vue({
         el: '#user-profile-app',
@@ -39,4 +93,5 @@ $(function () {
             }
         }
     });
+    setupAvatarFilepond();
 });

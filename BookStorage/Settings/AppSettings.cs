@@ -26,6 +26,7 @@ namespace BookStorage.Settings
     {
         [JsonProperty("BookCoverImage")] public FileValidation BookCoverImage { get; set; }
         [JsonProperty("BookFile")] public FileValidation BookFile { get; set; }
+        [JsonProperty("Avatar")] public FileValidation Avatar { get; set; }
     }
 
     public class FileValidation

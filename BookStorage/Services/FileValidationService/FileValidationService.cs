@@ -29,6 +29,14 @@ namespace BookStorage.Services.FileValidationService
                 out errorMessage, out var _);
         }
 
+        public bool IsAvatarValid(IFormFile file, out string errorMessage)
+        {
+            return TryValidateFile(new ValidationFile(file),
+                _appSettings.FileValidationSettings.Avatar.MaxAttachmentSize,
+                _appSettings.FileValidationSettings.Avatar.AllowedAttachmentTypes,
+                out errorMessage, out var _); throw new NotImplementedException();
+        }
+
         #region Private
 
         private bool IsValidFile(ValidationFile file, int? maxSize, List<string> acceptableFormats,

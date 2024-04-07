@@ -1,4 +1,5 @@
-﻿using BookStorage.Models.Entities.UserEntities;
+﻿using BookStorage.Helpers.Formatter;
+using BookStorage.Models.Entities.UserEntities;
 
 namespace BookStorage.Models.ViewModels.UserViewModel
 {
@@ -6,6 +7,7 @@ namespace BookStorage.Models.ViewModels.UserViewModel
     {
         public string Username { get; set; }
         public string Email { get; set; }
+        public string AvatarUrl { get; set; }
 
         public UserProfileViewModel() { }
 
@@ -13,6 +15,7 @@ namespace BookStorage.Models.ViewModels.UserViewModel
         {
             Username = entity.Username;
             Email = entity.Email;
+            AvatarUrl = StringFormatter.ToAvatarUrl(entity.AvatarStorageReference);
         }
     }
 }

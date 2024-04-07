@@ -28,5 +28,15 @@
 
             return $"/book-cover/{storageReference}";
         }
+
+        public static string ToAvatarUrl(string storageReference)
+        {
+            if (string.IsNullOrWhiteSpace(storageReference))
+            {
+                return Constants.Constants.DefaultAvatarUrl;
+            }
+
+            return $"/user/avatar/{storageReference}";
+        }
     }
 }

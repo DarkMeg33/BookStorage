@@ -24,5 +24,14 @@ namespace BookStorage.Repositories.UserRepository
         {
             return await GetAsync<UserEntity>("UserProfile_Update", entity);
         }
+
+        public async Task<bool> UpdateUserAvatarAsync(string storageReference, int userId)
+        {
+            return await ExecuteAsync("UserAvatar_Update", new
+            {
+                avatarStorageReference = storageReference,
+                userId
+            });
+        }
     }
 }
