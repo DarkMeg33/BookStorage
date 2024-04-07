@@ -47,12 +47,12 @@ namespace BookStorage.Services.UserService
             throw new NotImplementedException();
         }
 
-        public async Task<UserProfileViewModel> GetUserProfileViewModelAsync()
+        public async Task<GetUserProfileViewModel> GetUserProfileViewModelAsync()
         {
             int userId = await GetUserIdAsync();
             UserEntity user = await _userRepository.GetUserAsync(userId);
 
-            return new UserProfileViewModel(user);
+            return new GetUserProfileViewModel(user);
         }
 
         public async Task<DataEndpointResultDto<UserDto>> UpsertUserProfileAsync(FormUserProfileViewModel viewModel)
@@ -110,7 +110,7 @@ namespace BookStorage.Services.UserService
 
             UserEntity user = await _userRepository.GetUserAsync(userId);
 
-            return String.IsNullOrWhiteSpace(user.AvatarStorageReference)
+            return user == null || string.IsNullOrWhiteSpace(user.AvatarStorageReference)
                 ? null
                 : StringFormatter.ToAvatarUrl(user.AvatarStorageReference);
         }
@@ -119,7 +119,7 @@ namespace BookStorage.Services.UserService
         {
             UserEntity user = await _userRepository.GetUserAsync(userId);
 
-            return String.IsNullOrWhiteSpace(user.AvatarStorageReference)
+            return user == null || String.IsNullOrWhiteSpace(user.AvatarStorageReference)
                 ? null
                 : StringFormatter.ToAvatarUrl(user.AvatarStorageReference);
         }

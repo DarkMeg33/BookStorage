@@ -7,7 +7,6 @@ namespace BookStorage.Models.ViewModels.UserViewModel
     {
         public string Username { get; set; }
         public string Email { get; set; }
-        public string AvatarUrl { get; set; }
 
         public UserProfileViewModel() { }
 
@@ -15,7 +14,6 @@ namespace BookStorage.Models.ViewModels.UserViewModel
         {
             Username = entity.Username;
             Email = entity.Email;
-            AvatarUrl = StringFormatter.ToAvatarUrl(entity.AvatarStorageReference);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace BookStorage.Services.UserService
         Task<UserDto> GetUserDtoAsync(int id);
         Task<UserDto> GetUserDtoAsync(string email);
         Task<UserDto> GetUserDtoByUsernameAsync(string username);
-        Task<UserProfileViewModel> GetUserProfileViewModelAsync();
+        Task<GetUserProfileViewModel> GetUserProfileViewModelAsync();
         Task<DataEndpointResultDto<UserDto>> UpsertUserProfileAsync(FormUserProfileViewModel viewModel);
         Task<FileResult> GetUserAvatarFileAsync(string storageReference);
         Task<string> GetCurrentUserAvatarUrlAsync();

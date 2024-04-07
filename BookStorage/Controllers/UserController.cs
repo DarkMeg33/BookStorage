@@ -20,7 +20,7 @@ namespace BookStorage.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> UserProfileView()
         {
-            UserProfileViewModel user = await _userService.GetUserProfileViewModelAsync();
+            GetUserProfileViewModel user = await _userService.GetUserProfileViewModelAsync();
             return user == null ? NotFound() : View(user);
         }
         

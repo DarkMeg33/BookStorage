@@ -14,6 +14,7 @@ namespace BookStorage.Models.Entities.UserEntities
             Username = viewModel.Username ?? existedUser.Username;
             Email = viewModel.Email ?? existedUser.Email;
             UserId = existedUser.UserId;
+            AvatarStorageReference = existedUser.AvatarStorageReference;
         }
     }
 }
