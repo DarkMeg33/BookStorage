@@ -110,16 +110,7 @@ namespace BookStorage.Services.UserService
 
             UserEntity user = await _userRepository.GetUserAsync(userId);
 
-            return user == null || string.IsNullOrWhiteSpace(user.AvatarStorageReference)
-                ? null
-                : StringFormatter.ToAvatarUrl(user.AvatarStorageReference);
-        }
-
-        public async Task<string> GetUserAvatarUrlAsync(int userId)
-        {
-            UserEntity user = await _userRepository.GetUserAsync(userId);
-
-            return user == null || String.IsNullOrWhiteSpace(user.AvatarStorageReference)
+            return user == null
                 ? null
                 : StringFormatter.ToAvatarUrl(user.AvatarStorageReference);
         }

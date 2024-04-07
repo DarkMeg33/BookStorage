@@ -1,10 +1,9 @@
 ﻿@using BookStorage.Extensions
-@using BookStorage.Helpers.Constants
 @using BookStorage.Models.ViewModels.ChapterViewModel
 @using BookStorage.Models.ViewModels.CommentViewModel
 @using BookStorage.Services.ChapterService
 @using BookStorage.Services.CommentService
-@using BookStorage.Services.UserContextService
+@using BookStorage.Services.UserService
 @using BookStorage.Settings
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 
@@ -12,7 +11,7 @@
 
 @{
     ViewData["Title"] = Model.Title;
-    IUserContextService userContextService = Context.GetService<IUserContextService>();
+    IUserService userService = Context.GetService<IUserService>();
     ICommentService commentService = Context.GetService<ICommentService>();
     IChapterService chapterService = Context.GetService<IChapterService>();
     AppSettings appSettings = Context.GetService<AppSettings>();
@@ -70,7 +69,7 @@
             </div>
             <div class="ui segment">
                 <h3 class="ui dividing header">Comments</h3>
-                @if (userContextService.IsUserAuthenticated())
+                @if (userService.IsUserAuthenticated())
                 {
                     <form class="ui reply form" id="comment-form" onsubmit="return false">
                         <div class="field">
@@ -95,7 +94,7 @@
                         <div class="ui comments" v-for="comment in comments">
                             <div class="comment">
                                 <a class="avatar">
-                                    <img src="/images/avatar/small/joe.jpg">
+                                    <img :src="comment.authorAvatarUrl">
                                 </a>
                                 <div class="content">
                                     <a class="author">{{ comment.authorName }}</a>

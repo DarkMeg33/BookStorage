@@ -17,7 +17,6 @@ namespace BookStorage.Services.UserService
         Task<DataEndpointResultDto<UserDto>> UpsertUserProfileAsync(FormUserProfileViewModel viewModel);
         Task<FileResult> GetUserAvatarFileAsync(string storageReference);
         Task<string> GetCurrentUserAvatarUrlAsync();
-        Task<string> GetUserAvatarUrlAsync(int userId);
         Task<EndpointResultDto> UpdateUserAvatarAsync(IFormFile avatar);
     }
 }

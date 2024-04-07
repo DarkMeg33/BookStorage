@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using BookStorage.Models.ViewModels.UserViewModel;
+﻿using BookStorage.Models.ViewModels.UserViewModel;
 using BookStorage.Services.UserService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
