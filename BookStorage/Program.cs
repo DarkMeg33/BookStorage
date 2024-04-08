@@ -4,6 +4,7 @@ using BookStorage.Repositories.AccountRepository;
 using BookStorage.Repositories.BookRepository;
 using BookStorage.Repositories.ChapterRepository;
 using BookStorage.Repositories.CommentRepository;
+using BookStorage.Repositories.UserReadingSettingsRepository;
 using BookStorage.Repositories.UserRepository;
 using BookStorage.Services.AccountService;
 using BookStorage.Services.AdminService;
@@ -14,6 +15,7 @@ using BookStorage.Services.CommentService;
 using BookStorage.Services.FictionBookReaderService;
 using BookStorage.Services.FileValidationService;
 using BookStorage.Services.UserContextService;
+using BookStorage.Services.UserReadingSettingsService;
 using BookStorage.Services.UserService;
 using BookStorage.Settings;
 using Newtonsoft.Json;
@@ -73,6 +75,7 @@ namespace BookStorage
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<ICommentRepository, CommentRepository>();
             builder.Services.AddScoped<IChapterRepository, ChapterRepository>();
+            builder.Services.AddScoped<IUserReadingSettingsRepository, UserReadingSettingsRepository>();
 
             #endregion
 
@@ -88,6 +91,7 @@ namespace BookStorage
             builder.Services.AddScoped<IFictionBookReaderService, FictionBookReaderService>();
             builder.Services.AddScoped<IChapterService, ChapterService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
+            builder.Services.AddScoped<IUserReadingSettingsService, UserReadingSettingsService>();
 
             #endregion
 
