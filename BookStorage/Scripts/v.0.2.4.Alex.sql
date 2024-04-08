@@ -28,7 +28,7 @@ BEGIN
 		urs.FontSize,
 		urs.ThemeMode
 	FROM UserReadingSettings urs
-		JOIN dbo.[User] u on u.UserId = urs.UserId and u.UserId = @userId
+		JOIN dbo.[User] u on u.UserId = urs.UserId
 	WHERE (UserReadingSettingsId = @userReadingSettingsId or @userReadingSettingsId = null) OR 
 		(urs.UserId = @userId or @userId = null)
 END

@@ -9,6 +9,8 @@ namespace BookStorage.Models.ViewModels.UserReadingSettingsViewModel
         public int FontSize { get; set; }
         public ReadingThemeMode ThemeMode { get; set; }
 
+        public UserReadingSettingsViewModel() { }
+
         public UserReadingSettingsViewModel(UserReadingSettingsEntity e)
         {
             UserReadingSettingsId = e.UserReadingSettingsId;

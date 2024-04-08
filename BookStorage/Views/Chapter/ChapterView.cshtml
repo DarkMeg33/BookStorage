@@ -1,7 +1,11 @@
 ﻿@using BookStorage.Models.Dto.ChapterDto
 @using BookStorage.Extensions
+@using BookStorage.Helpers.Constants
 @using BookStorage.Models.ViewModels.ChapterViewModel
+@using BookStorage.Models.ViewModels.UserReadingSettingsViewModel
 @using BookStorage.Services.ChapterService
+@using BookStorage.Services.UserContextService
+@using BookStorage.Services.UserReadingSettingsService
 
 @model ChapterDto
 
@@ -10,6 +14,8 @@
     ViewData["Title"] = chapter.Title;
 
     IChapterService chapterService = Context.GetService<IChapterService>();
+    IUserContextService userContextService = Context.GetService<IUserContextService>();
+    IUserReadingSettingsService userReadingSettingsService = Context.GetService<IUserReadingSettingsService>();
 
     List<ChapterViewModel> chapterViewModels = await chapterService.GetChapterViewModelsAsync(chapter.BookId);
 
@@ -22,20 +28,32 @@
         ? 0 : chapterViewModels[currentChapterIndex - 1].ChapterId;
     int nextChapterId = currentChapterIndex + 1 == chapterViewModels.Count 
         ? 0 : chapterViewModels[currentChapterIndex + 1].ChapterId;
+
+    int userId = await userContextService.GetUserIdAsync();
+
+    UserReadingSettingsViewModel userReadingSettings = userId != 0 
+        ? await userReadingSettingsService.GetUserReadingSettingsViewModelAsync(userId) ?? Constants.DefaultUserReadingSettings
+        : Constants.DefaultUserReadingSettings;
 }
 
 @section Scripts
 {
     <script src="~/js/chapter-view.js"></script>
+
+    @await Html.SetClientSideJavascriptVariableAsync("userId",  userId)
+    @await Html.SetClientSideJavascriptVariableAsync("userReadingSettings",  userReadingSettings)
+    @await Html.SetClientSideJavascriptVariableAsync("chapter",  chapter)
+    @await Html.SetClientSideJavascriptVariableAsync("bookId",  chapter.BookId)
+    @await Html.SetClientSideJavascriptVariableAsync("previousChapterId",  previousChapterId)
+    @await Html.SetClientSideJavascriptVariableAsync("nextChapterId",  nextChapterId)
+    @await Html.SetClientSideJavascriptVariableAsync("isFirstChapter",  isFirstChapter)
+    @await Html.SetClientSideJavascriptVariableAsync("isLastChapter",  isLastChapter)
 }
 
 @section Styles 
 {
     @Html.HideHeader()
     <link rel="stylesheet" href="~/css/chapter-view.css" />
-
-    @await Html.SetClientSideJavascriptVariableAsync("isFirstChapter",  isFirstChapter)
-    @await Html.SetClientSideJavascriptVariableAsync("isLastChapter",  isLastChapter)
 }
 
 <header id="chapter-header">
@@ -57,32 +75,62 @@
                 </div>
             </div>
             <div class="right menu">
-                <a class="ui black button item">
+                <a class="ui black button item" id="user-reading-settings-popup">
                     <i class="cog large icon m-zero" style="visibility: visible;"></i>
                 </a>
+                <div class="ui popup">
+                    <form class="ui form" id="user-reading-settings-form" onsubmit="return false">
+                        <input id="user-reading-settings-id-input" type="number" name="userReadingSettingsId" hidden />
+                        <div class="field">
+                            <label>Font Size</label>
+                            <div class="ui right labeled input">
+                                <input id="font-size-input" type="number" name="fontSize" placeholder="Font size"/>
+                                <div class="ui label">
+                                    px
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Theme</label>
+                            <select id="theme-mode-input" name="themeMode" class="ui fluid dropdown">
+                                <option value="1">Light</option>
+                                <option value="2">Dark</option>
+                            </select>
+                        </div>
+                        <button class="ui fluid secondary submit button"
+                                id="save-user-settings-btn"
+                                disabled="@(userId == 0)">
+                            Save
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </header>
-<div class="ui main text container">
-    <div class="ui black stacked segment">
-        <h1 class="ui header center aligned">@chapter.Title</h1>
+<div id="chapter-app" class="ui main text container">
+    <div class="ui black stacked segment"
+         :class="{ inverted: userReadingSettings.themeMode == 2 }">
+        <h1 class="ui header center aligned">{{ chapter.title }}</h1>
     </div>
-    <div class="ui segment">
-        @Html.Raw(chapter.Content)
+    <div class="ui segment"
+         :class="{ inverted: userReadingSettings.themeMode == 2 }">
+        <div v-html="chapter.content" 
+             :style="{ fontSize: userReadingSettings.fontSize + 'px' }"></div>
     </div>
-    <div id="nav-btns-app" class="ui segment">
+    <div class="ui segment"
+         :class="{ inverted: userReadingSettings.themeMode == 2 }">
         <div class="actions-container">
             <div class="actions spaced">
                 <button class="ui labeled icon black button" 
                         :class="{ disabled: isFirstChapter }"
-                        @@click="goToChapter(@chapter.BookId, @previousChapterId)">
+                        @@click="goToChapter(bookId, previousChapterId)">
                     <i class="left arrow spinner icon"></i>
                     Back
                 </button>
                 <button class="ui right labeled icon black button" 
                         :class="{ disabled: isLastChapter }"
-                        @@click="goToChapter(@chapter.BookId, @nextChapterId)">
+                        @@click="goToChapter(bookId, nextChapterId)">
                     <i class="right arrow icon"></i>
                     Next
                 </button>

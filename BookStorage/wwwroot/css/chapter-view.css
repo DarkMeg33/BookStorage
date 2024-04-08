@@ -1,3 +1,13 @@
 ﻿.ui.text.container p {
     text-indent: 2em;
 }
+
+.light-theme-mode {
+    background-color: #f5f5f5;
+    color: #000;
+}
+
+.dark-theme-mode {
+    background-color: #333;
+    color: #fff;
+}

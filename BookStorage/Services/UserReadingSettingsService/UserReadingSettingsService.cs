@@ -1,6 +1,7 @@
 ﻿using BookStorage.Models.Dto.EndpointResultDto;
 using BookStorage.Models.Entities.UserReadingSettingsEntity;
 using BookStorage.Models.ViewModels.UserReadingSettingsViewModel;
+using BookStorage.Repositories.Base;
 using BookStorage.Repositories.UserReadingSettingsRepository;
 
 namespace BookStorage.Services.UserReadingSettingsService
@@ -9,9 +10,11 @@ namespace BookStorage.Services.UserReadingSettingsService
     {
         private readonly IUserReadingSettingsRepository _userReadingSettingsRepository;
 
-        public UserReadingSettingsService(IUserReadingSettingsRepository userReadingSettingsRepository)
+        public UserReadingSettingsService(IUserReadingSettingsRepository userReadingSettingsRepository, IUnitOfWork unitOfWork)
         {
             _userReadingSettingsRepository = userReadingSettingsRepository;
+
+            _userReadingSettingsRepository.Attach(unitOfWork);
         }
 
         public async Task<UserReadingSettingsViewModel> GetUserReadingSettingsViewModelAsync(int userId)

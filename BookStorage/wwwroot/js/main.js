@@ -8,6 +8,7 @@ class FormCfg {
     onFailFn;
     successMessage;
     errorMessage;
+    clearForm;
     formDataBeforeSubmitFn;
     beforeFormValidationFn;
 }
@@ -92,7 +93,9 @@ function handleFormSubmit(cfg) {
                     cfg.onSuccessFn(response);
                 }
 
-                form.form('clear');
+                if (!!cfg.clearForm) {
+                    form.form('clear');
+                }
             })
             .catch((error) => {
                 if (error.response) {
