@@ -30,6 +30,7 @@ namespace BookStorage.Controllers
         }
         
         [HttpGet("/user/avatar/{storageReference}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUserAvatar(string storageReference)
         {
             return await _userService.GetUserAvatarFileAsync(storageReference);
