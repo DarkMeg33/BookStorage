@@ -6,12 +6,14 @@ namespace BookStorage.Models.ViewModels.UserViewModel
     public class GetUserProfileViewModel : UserProfileViewModel
     {
         public string AvatarUrl { get; set; }
+        public decimal Balance { get; set; }
 
         public GetUserProfileViewModel() { }
 
-        public GetUserProfileViewModel(UserEntity entity) : base(entity)
+        public GetUserProfileViewModel(RetrieveUserEntity entity) : base(entity)
         {
             AvatarUrl = StringFormatter.ToAvatarUrl(entity.AvatarStorageReference);
+            Balance = entity.Balance;
         }
     }
 }

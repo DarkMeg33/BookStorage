@@ -4,5 +4,6 @@
     {
         public string AuthorName { get; set; }
         public string AuthorAvatarStorageReference { get; set; }
+        public bool IsBought { get; set; }
     }
 }

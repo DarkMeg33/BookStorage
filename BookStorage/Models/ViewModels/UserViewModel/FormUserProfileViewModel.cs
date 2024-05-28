@@ -9,7 +9,7 @@ namespace BookStorage.Models.ViewModels.UserViewModel
 
         public FormUserProfileViewModel() { }
 
-        public FormUserProfileViewModel(UserEntity entity) : base(entity)
+        public FormUserProfileViewModel(RetrieveUserEntity entity) : base(entity)
         {
         }
     }

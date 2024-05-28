@@ -4,10 +4,12 @@ using BookStorage.Models.Dto.EndpointResultDto;
 using BookStorage.Models.Dto.FictionBookDto;
 using BookStorage.Models.Entities.BookEntities;
 using BookStorage.Models.Entities.ChapterEntities;
+using BookStorage.Models.Entities.UserEntities;
 using BookStorage.Models.ViewModels.BookViewModel;
 using BookStorage.Repositories.Base;
 using BookStorage.Repositories.BookRepository;
 using BookStorage.Repositories.ChapterRepository;
+using BookStorage.Repositories.UserRepository;
 using BookStorage.Services.ChapterService;
 using BookStorage.Services.FictionBookReaderService;
 using BookStorage.Services.FileStorageService;
@@ -24,9 +26,10 @@ namespace BookStorage.Services.BookService
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFictionBookReaderService _fictionBookReaderService;
         private readonly IChapterRepository _chapterRepository;
+        private readonly IUserRepository _userRepository;
 
         public BookService(IBookRepository bookRepository, IUnitOfWork unitOfWork, 
-            IFileStorageService fileStorageService, IFileValidationService fileValidationService, IFictionBookReaderService fictionBookReaderService, IChapterService chapterService, IChapterRepository chapterRepository)
+            IFileStorageService fileStorageService, IFileValidationService fileValidationService, IFictionBookReaderService fictionBookReaderService, IChapterService chapterService, IChapterRepository chapterRepository, IUserRepository userRepository)
         {
             _bookRepository = bookRepository;
             _unitOfWork = unitOfWork;
@@ -34,23 +37,25 @@ namespace BookStorage.Services.BookService
             _fileValidationService = fileValidationService;
             _fictionBookReaderService = fictionBookReaderService;
             _chapterRepository = chapterRepository;
+            _userRepository = userRepository;
 
             _bookRepository.Attach(unitOfWork);
             _chapterRepository.Attach(unitOfWork);
+            _userRepository.Attach(unitOfWork);
         }
 
         #region Book
 
-        public async Task<List<BookDto>> GetBookDtosAsync()
+        public async Task<List<BookDto>> GetBookDtosAsync(int currentUserId)
         {
-            return (await _bookRepository.GetBooksAsync())
+            return (await _bookRepository.GetBooksAsync(currentUserId))
                 .Select(x => new BookDto(x))
                 .ToList();
         }
 
-        public async Task<GetBookDto> GetBookDtoAsync(int bookId)
+        public async Task<GetBookDto> GetBookDtoAsync(int bookId, int currentUserId)
         {
-            return new GetBookDto(await _bookRepository.GetBookAsync(bookId));
+            return new GetBookDto(await _bookRepository.GetBookAsync(bookId, currentUserId));
         }
 
         public async Task<FileResult> GetBookCoverFileAsync(string storageReference)
@@ -66,9 +71,9 @@ namespace BookStorage.Services.BookService
             return new FileStreamResult(bookCoverStream, MimeMapping.GetMimeType(storageReference));
         }
 
-        public async Task<BookViewModel> GetBookViewModelAsync(int bookId)
+        public async Task<BookViewModel> GetBookViewModelAsync(int bookId, int currentUserId)
         {
-            return new BookViewModel(await _bookRepository.GetBookAsync(bookId));
+            return new BookViewModel(await _bookRepository.GetBookAsync(bookId, currentUserId));
         }
 
         public async Task<DataEndpointResultDto<GetBookDto>> TryUpsertBookAsync(FormBookViewModel bookViewModel, int currentUserId)
@@ -76,7 +81,7 @@ namespace BookStorage.Services.BookService
             Dictionary<string, string> errors = new Dictionary<string, string>();
 
             //TODO migrate this to validate model attribute
-            RetrieveBookEntity existingBook = await _bookRepository.GetBookAsync(bookViewModel.Title);
+            RetrieveBookEntity existingBook = await _bookRepository.GetBookAsync(bookViewModel.Title, currentUserId);
 
             if (existingBook != null)
             {
@@ -183,6 +188,44 @@ namespace BookStorage.Services.BookService
         }
 
         #endregion
+
+        public async Task<EndpointResultDto> TryBuyBookAsync(int bookId, int currentUserId)
+        {
+            RetrieveBookEntity book = await _bookRepository.GetBookAsync(bookId, currentUserId);
+
+            if (book == null)
+            {
+                return new EndpointResultDto(false, null);
+            }
+
+            RetrieveUserEntity author = await _userRepository.GetUserAsync(book.AuthorId);
+
+            _unitOfWork.Begin();
+
+            try
+            {
+                if (!(await _bookRepository.InsertUserBoughtBookAsync(bookId, currentUserId)))
+                {
+                    _unitOfWork.RollBack();
+                    return new EndpointResultDto(false, null);
+                }
+
+                if (!(await _userRepository.SetUserBalanceAsync(author.UserId!.Value, author.Balance + book.Price!.Value)))
+                {
+                    _unitOfWork.RollBack();
+                    return new EndpointResultDto(false, null);
+                }
+
+                _unitOfWork.Commit();
+                return new EndpointResultDto(true, null);
+            }
+            catch (Exception e)
+            {
+                _unitOfWork.RollBack();
+                Console.WriteLine(e);
+                return new EndpointResultDto(false, null);
+            }
+        }
 
         #endregion
     }

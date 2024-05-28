@@ -5,14 +5,14 @@ namespace BookStorage.Repositories.UserRepository
 {
     public class UserRepository : BaseRepository, IUserRepository
     {
-        public async Task<UserEntity> GetUserAsync(int id)
+        public async Task<RetrieveUserEntity> GetUserAsync(int id)
         {
-            return await GetAsync<UserEntity>("User_SelectById", new { userId = id });
+            return await GetAsync<RetrieveUserEntity>("User_SelectById", new { userId = id });
         }
 
-        public async Task<UserEntity> GetUserAsync(string email)
+        public async Task<RetrieveUserEntity> GetUserAsync(string email)
         {
-            return await GetAsync<UserEntity>("User_SelectByEmail", new { email });
+            return await GetAsync<RetrieveUserEntity>("User_SelectByEmail", new { email });
         }
 
         public async Task<string> GetUserPasswordAsync(string email)
@@ -20,9 +20,9 @@ namespace BookStorage.Repositories.UserRepository
             return await GetAsync<string>("UserPassword_Select", new { email });
         }
 
-        public async Task<UserEntity> UpdateUserProfileAsync(SaveUserProfileEntity entity)
+        public async Task<RetrieveUserEntity> UpdateUserProfileAsync(SaveUserProfileEntity entity)
         {
-            return await GetAsync<UserEntity>("UserProfile_Update", entity);
+            return await GetAsync<RetrieveUserEntity>("UserProfile_Update", entity);
         }
 
         public async Task<bool> UpdateUserAvatarAsync(string storageReference, int userId)
@@ -32,6 +32,11 @@ namespace BookStorage.Repositories.UserRepository
                 avatarStorageReference = storageReference,
                 userId
             });
+        }
+
+        public async Task<bool> SetUserBalanceAsync(int userId, decimal amount)
+        {
+            return await ExecuteAsync("User_SetBalance", new { userId, amount });
         }
     }
 }

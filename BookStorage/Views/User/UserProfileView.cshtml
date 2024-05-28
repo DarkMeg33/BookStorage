@@ -53,9 +53,14 @@
                     <div class="ui segment">
                         <div class="field">
                             <label>Username</label>
-                            <input :disabled="!isEditMode" id="username"
-                                   :value="userProfile.username"
-                                   type="text" name="username" placeholder="Username">
+                            <div class="ui right labeled input">
+                                <input :disabled="!isEditMode" id="username"
+                                       :value="userProfile.username"
+                                       type="text" name="username" placeholder="Username">
+                                <a class="ui tag label">
+                                    Balance $@Model.Balance
+                                </a>
+                            </div>
                         </div>
                         <div class="field">
                             <label>Email</label>

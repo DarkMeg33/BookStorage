@@ -10,7 +10,7 @@ namespace BookStorage.Models.ViewModels.UserViewModel
 
         public UserProfileViewModel() { }
 
-        public UserProfileViewModel(UserEntity entity)
+        public UserProfileViewModel(RetrieveUserEntity entity)
         {
             Username = entity.Username;
             Email = entity.Email;

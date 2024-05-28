@@ -50,7 +50,7 @@ namespace BookStorage.Services.UserService
         public async Task<GetUserProfileViewModel> GetUserProfileViewModelAsync()
         {
             int userId = await GetUserIdAsync();
-            UserEntity user = await _userRepository.GetUserAsync(userId);
+            RetrieveUserEntity user = await _userRepository.GetUserAsync(userId);
 
             return new GetUserProfileViewModel(user);
         }

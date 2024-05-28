@@ -10,6 +10,7 @@ namespace BookStorage.Models.Entities.BookEntities
             Title = vm.Title;
             Description = vm.Description;
             AuthorId = currentUserId;
+            Price = vm.Price;
         }
     }
 }

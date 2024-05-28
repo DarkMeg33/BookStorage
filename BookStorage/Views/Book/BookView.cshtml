@@ -46,8 +46,16 @@
                         <div class="ui fluid rounded image">
                             <img src="@Model.CoverUrl" alt="cover" />
                         </div>
-                        <a href="/book/@Model.BookId/chapter/@chapters.First().ChapterId/view" 
-                           class="ui fluid positive button m-top-15">Read</a>
+                        @if (Model.Price == null || Model.IsBought)    
+                        {
+                            <a href="/book/@Model.BookId/chapter/@chapters.First().ChapterId/view" 
+                               class="ui fluid positive button m-top-15">Read</a>
+                        }
+                        @if (Model.Price != null && !Model.IsBought)    
+                        {
+                            <a href="/book/@Model.BookId/buy"
+                                class="ui fluid blue button m-top-15">Buy $@Model.Price</a>
+                        }
                     </div>
                     <div class="ten wide column">
                         <h1 class="ui dividing header">

@@ -45,6 +45,10 @@ function setupChaptersAccordion() {
     $('#chapter-app').accordion();
 }
 
+function buyBook() {
+    console.log('buy');
+}
+
 $(function () {
     tinymce.init({
         selector: 'textarea#comment-editor'

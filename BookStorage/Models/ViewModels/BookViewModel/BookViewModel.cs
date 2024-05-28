@@ -12,6 +12,8 @@ namespace BookStorage.Models.ViewModels.BookViewModel
         public string AuthorName { get; set; }
         public string AuthorAvatarUrl { get; set; }
         public string CoverUrl { get; }
+        public decimal? Price { get; set; }
+        public bool IsBought { get; set; }
 
         public BookViewModel(RetrieveBookEntity entity)
         {
@@ -22,6 +24,8 @@ namespace BookStorage.Models.ViewModels.BookViewModel
             AuthorName = entity.AuthorName;
             CoverUrl = StringFormatter.ToBookCoverUrl(entity.CoverStorageReference);
             AuthorAvatarUrl = StringFormatter.ToAvatarUrl(entity.AuthorAvatarStorageReference);
+            Price = entity.Price;
+            IsBought = entity.IsBought;
         }
     }
 }

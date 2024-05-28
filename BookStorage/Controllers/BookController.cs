@@ -20,14 +20,14 @@ namespace BookStorage.Controllers
         [HttpGet("/books")]
         public async Task<IActionResult> GetBooks()
         {
-            return Json(await _bookService.GetBookDtosAsync());
+            return Json(await _bookService.GetBookDtosAsync(await _userContextService.GetUserIdAsync()));
         }
 
         [HttpGet("/book/{bookId}/view")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> BookView([FromRoute] int bookId)
         {
-            BookViewModel book = await _bookService.GetBookViewModelAsync(bookId);
+            BookViewModel book = await _bookService.GetBookViewModelAsync(bookId, await _userContextService.GetUserIdAsync());
 
             return book == null ? NotFound() : View("BookView", book);
         }
@@ -52,6 +52,12 @@ namespace BookStorage.Controllers
         {
             return DynamicResultResponse(await _bookService.TryUpsertBookAsync(viewModel,
                 await _userContextService.GetUserIdAsync()));
+        }
+
+        [HttpGet("/book/{bookId}/buy")]
+        public async Task<IActionResult> BuyBook([FromRoute] int bookId)
+        {
+            return DynamicResultResponse(await _bookService.TryBuyBookAsync(bookId, await _userContextService.GetUserIdAsync()));
         }
     }
 }
