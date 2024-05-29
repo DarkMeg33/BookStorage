@@ -76,6 +76,14 @@ namespace BookStorage.Services.BookService
             return new BookViewModel(await _bookRepository.GetBookAsync(bookId, currentUserId));
         }
 
+        public async Task<List<BookViewModel>> GetBookViewModelsAsync(int currentUserId)
+        {
+            return (await _bookRepository.GetBooksAsync(currentUserId))
+                .OrderByDescending(x => x.BookId)
+                .Select(x => new BookViewModel(x))
+                .ToList();
+        }
+
         public async Task<DataEndpointResultDto<GetBookDto>> TryUpsertBookAsync(FormBookViewModel bookViewModel, int currentUserId)
         {
             Dictionary<string, string> errors = new Dictionary<string, string>();

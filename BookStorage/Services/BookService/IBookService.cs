@@ -13,6 +13,7 @@ namespace BookStorage.Services.BookService
         Task<GetBookDto> GetBookDtoAsync(int bookId, int currentUserId);
         Task<FileResult> GetBookCoverFileAsync(string storageReference);
         Task<BookViewModel> GetBookViewModelAsync(int bookId, int currentUserId);
+        Task<List<BookViewModel>> GetBookViewModelsAsync(int currentUserId);
         Task<DataEndpointResultDto<GetBookDto>> TryUpsertBookAsync(FormBookViewModel bookViewModel, int currentUserId);
         Task<EndpointResultDto> TryBuyBookAsync(int bookId, int currentUserId);
 
