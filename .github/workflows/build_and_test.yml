@@ -55,4 +55,4 @@ jobs:
           path: ./build
 
       - name: Test
-        run: dotnet test --configuration Release --no-build
+        run: dotnet test --configuration Release
