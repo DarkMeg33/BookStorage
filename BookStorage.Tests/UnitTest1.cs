@@ -10,7 +10,7 @@ namespace BookStorage.Tests
         [Test]
         public void Test1()
         {
-            Assert.Pass();
+            Assert.Fail();
         }
     }
 }
